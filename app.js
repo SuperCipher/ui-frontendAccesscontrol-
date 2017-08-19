@@ -113,6 +113,7 @@ app.use((req, res, next) => {
   }
   next();
 });
+// 31557600000 is 24 * 3600 * 365.25 * 1000 Which is the length of a year, the length of a year is 365 days and 6 hours which is 0.25 day.
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
 
 /**
