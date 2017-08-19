@@ -1,5 +1,5 @@
 ![](https://lh4.googleusercontent.com/-PVw-ZUM9vV8/UuWeH51os0I/AAAAAAAAD6M/0Ikg7viJftQ/w1286-h566-no/hackathon-starter-logo.jpg)
-Hackathon Starter 
+Hackathon Starter
 =======================
 
 [![Dependency Status](https://david-dm.org/sahat/hackathon-starter/status.svg?style=flat)](https://david-dm.org/sahat/hackathon-starter) [![Build Status](https://travis-ci.org/sahat/hackathon-starter.svg?branch=master)](https://travis-ci.org/sahat/hackathon-starter) [![Join the chat at https://gitter.im/sahat/hackathon-starter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/sahat/hackathon-starter?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Thinkful Pair on Node](https://tf-assets-staging.s3.amazonaws.com/badges/thinkful_repo_badge.svg)](http://start.thinkful.com/node/)
@@ -130,9 +130,6 @@ cd myproject
 # Install NPM dependencies
 npm install
 
-# Or, if you prefer to use `yarn` instead of `npm`
-yarn install
-
 # Then simply start your app
 node app.js
 ```
@@ -143,16 +140,6 @@ server. Once installed, instead of `node app.js` use `nodemon app.js`. It will
 save you a lot of time in the long run, because you won't need to manually
 restart the server each time you make a small change in code. To install, run
 `sudo npm install -g nodemon`.
-
-Yarn vs NPM
------------
-Yarn is a new JavaScript package manager built by Facebook, Google, Exponent and Tilde. Yarn is not an attempt to replace `npm`, 
-it's simply an alternative CLI client for fetching modules from the npm registry but it does have some unique benefits over using `npm`,
-most noticeably speed and consistency (via a lock file which ensures that only specific versions of dependencies are installed).
-Hackathon Starter includes a `yarn.lock` file by default and as project dependencies are updated, this file will be updated to reflect those changes.
-
-To upgrade your local dependencies using Yarn, simply run `yarn upgrade`. This will update all dependencies to their latest version based on the [version range](https://docs.npmjs.com/getting-started/semantic-versioning#semver-for-consumers) specified in the `package.json` file. The yarn.lock file will be recreated as well.
-For further information, please see the official documention for [managing dependencies](https://yarnpkg.com/en/docs/managing-dependencies) and [upgrading dependencies](https://yarnpkg.com/en/docs/cli/upgrade). This [Yarn vs NPM](https://www.sitepoint.com/yarn-vs-npm/) article by SitePoint also has some very useful information.
 
 Obtaining API Keys
 ------------------
@@ -200,7 +187,7 @@ The same goes for other providers.
 - Click on the **Create New Facebook App ID** button
 - Choose a **Category** that best describes your app
 - Click on **Create App ID** button
-- In the upper right corner click on **Skip Quick Star**
+- In the upper right corner click on **Skip Quick Start**
 - Copy and paste *App ID* and *App Secret* keys into `.env`
  - **Note:** *App ID* is **clientID**, *App Secret* is **clientSecret**
 - Click on the *Settings* tab in the left nav, then click on **+ Add Platform**
@@ -357,7 +344,7 @@ Project Structure
 | .env.example                       | Your API keys, tokens, passwords and database URI.           |
 | app.js                             | The main application file.                                   |
 | package.json                       | NPM dependencies.                                            |
-| yarn.lock                          | Contains exact versions of NPM dependencies in package.json. |
+| package-lock.lock                          | Contains exact versions of NPM dependencies in package.json. |
 
 **Note:** There is no preference how you name or structure your views.
 You could place all your templates in a top-level `views` directory without
@@ -873,11 +860,6 @@ First you need to install socket.io:
 npm install socket.io --save
 ```
 
-Or, again, if you use Yarn:
-```js
-yarn add socket.io
-```
-
 Replace `const app = express();` with the following code:
 
 ```js
@@ -1120,7 +1102,7 @@ var YYYY = now.getFullYear();
 
 if (DD < 10) {
   DD = '0' + DD;
-} 
+}
 
 if (MM < 10) {
   MM = '0' + MM;
@@ -1202,13 +1184,13 @@ User.aggregate({ $group: { _id: null, total: { $sum: '$votes' } } }, (err, votes
 Docker
 ----------
 
-You will need docker and docker-compose installed to build the application. 
+You will need docker and docker-compose installed to build the application.
 
 - [Docker installation](https://docs.docker.com/engine/installation/)
 
 - [Common problems setting up docker](https://docs.docker.com/toolbox/faqs/troubleshoot/)
 
-After installing docker, start the application with the following commands : 
+After installing docker, start the application with the following commands :
 
 ```
 # To build the project for the first time or when you add dependencies
@@ -1237,6 +1219,7 @@ listed below.
 ### 1-Step Deployment with Heroku
 
 <img src="http://blog.exadel.com/wp-content/uploads/2013/10/heroku-Logo-1.jpg" width="200">
+
 - Download and install [Heroku Toolbelt](https://toolbelt.heroku.com/)
 - In terminal, run `heroku login` and enter your Heroku credentials
 - From *your app* directory run `heroku create`
@@ -1248,6 +1231,7 @@ listed below.
 ---
 
 <img src="http://i.imgur.com/7KnCa5a.png" width="200">
+
 - Open [mlab.com](https://mlab.com) website
 - Click the yellow **Sign up** button
 - Fill in your user information then hit **Create account**
@@ -1267,8 +1251,8 @@ listed below.
 
 **Note:** As an alternative to mLab, there is also [Compose](https://www.compose.io/).
 
-
 <img src="http://www.opencloudconf.com/images/openshift_logo.png" width="200">
+
 - First, install this Ruby gem: `sudo gem install rhc` :gem:
 - Run `rhc login` and enter your OpenShift credentials
 - From your app directory run `rhc app create MyApp nodejs-0.10`
@@ -1498,7 +1482,7 @@ Changelog
 - Flash an error message when updating email to that which is already taken
 - Removing an email address during profile update is no longer possible
 - PayPal API example now uses *return_url* and *cancel_url* from `.env`
-- Added client-side `required=true` attributes to input fields 
+- Added client-side `required=true` attributes to input fields
 - Fixed broken `show()` function in the GitHub API example
 - Fixed YQL query in the Yahoo Weather API example
 - Fixed *Can't set headers after they are sent* error in Stripe API example
