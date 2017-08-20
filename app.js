@@ -43,7 +43,9 @@ const passportConfig = require('./config/passport');
 /**
  * Create Express server.
  */
-const app = express();
+ const app = express();
+ const server = require('http').Server(app);
+ const io = require('socket.io')(server);
 
 /**
  * Connect to MongoDB.
