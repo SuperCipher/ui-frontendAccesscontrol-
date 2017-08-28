@@ -9,10 +9,12 @@
   "author": "Sahat Yalkabov",
   "license": "MIT",
   "scripts": {
-    "start": "node app.js",
-    "test": "mocha --reporter spec",
+    "eslint": "eslint **/*.js",
+    "flow": "flow",
     "postinstall": "npm rebuild node-sass",
-    "eslint": "eslint **/*.js"
+    "prepublish": "npm run build",
+    "start": "node app.js",
+    "test": "mocha --reporter spec"
   },
   "dependencies": {
     "bcrypt-nodejs": "^0.0.3",
@@ -56,6 +58,7 @@
     "paypal-rest-sdk": "^1.7.1",
     "pug": "^2.0.0-rc.3",
     "request": "^2.81.0",
+    "socket.io": "^1.7.3",
     "stripe": "^4.24.0",
     "tumblr.js": "^1.1.1",
     "twilio": "^3.6.3",
@@ -63,11 +66,14 @@
     "validator": "^8.0.0"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-flow": "^6.23.0",
     "chai": "^4.1.1",
     "eslint": "^4.4.1",
     "eslint-config-airbnb-base": "^11.3.1",
     "eslint-plugin-chai-friendly": "^0.4.0",
     "eslint-plugin-import": "^2.7.0",
+    "flow-bin": "^0.53.1",
     "mocha": "^3.5.0",
     "sinon": "^3.2.1",
     "sinon-mongoose": "^2.0.2",

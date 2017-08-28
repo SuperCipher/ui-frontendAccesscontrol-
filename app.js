@@ -1,3 +1,4 @@
+/* @flow */
 /**
  * Module dependencies.
  */
@@ -16,7 +17,21 @@ const path = require('path');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const expressValidator = require('express-validator');
-const expressStatusMonitor = require('express-status-monitor')({ path: '' });
+// const fs = require('fs');
+
+/**
+ * Create Express server.
+ */
+
+const app = express();
+
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
+
+const socketIoStatusPort = 8082;
+const ioStatus = require('socket.io')(socketIoStatusPort);
+
+const expressStatusMonitor = require('express-status-monitor')({ path: '',websocket: ioStatus, port: socketIoStatusPort });
 const sass = require('node-sass-middleware');
 const multer = require('multer');
 
@@ -39,13 +54,6 @@ const contactController = require('./controllers/contact');
  * API keys and Passport configuration.
  */
 const passportConfig = require('./config/passport');
-
-/**
- * Create Express server.
- */
- const app = express();
- const server = require('http').Server(app);
- const io = require('socket.io')(server);
 
 /**
  * Connect to MongoDB.
@@ -243,10 +251,12 @@ app.use(errorHandler());
 
 module.exports = app;
 
-io.on('connection', (socket) => {
-  socket.emit('fps com', { hello: 'Hey there browser!' });
-  socket.on('fps com', (data) => {
+var fps_nsp = io.of('/fps-namespace');
+fps_nsp.on('connection', (socket) => {
+  // socket.emit('fps_com', { hello: 'Hey there browser!' });
+  socket.on('fps_com', (data) => {
     console.log(data);
+    socket.emit('fps_com', "copy");
   });
   socket.on('disconnect', () => {
     console.log('Socket disconnected');
