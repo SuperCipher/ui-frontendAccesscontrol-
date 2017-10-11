@@ -1,3 +1,4 @@
+/* @flow */
 /**
  * Module dependencies.
  */
@@ -16,7 +17,29 @@ const path = require('path');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const expressValidator = require('express-validator');
-const expressStatusMonitor = require('express-status-monitor');
+const fs = require('fs');
+const https = require('https');
+const options = {
+  key: fs.readFileSync('./key.pem'),
+  cert: fs.readFileSync('./cert.pem'),
+  requestCert: false,
+  rejectUnauthorized: false
+};
+
+/**
+ * Create Express server.
+ */
+
+const app = express();
+
+// HTTPS option
+// const sslServer = https.createServer(options, app);
+// const io = require('socket.io')(sslServer);
+
+const socketIoPort = 8082;
+const ioSocket = require('socket.io')(socketIoPort);
+
+const statusMonitor = require('express-status-monitor')({ path: '' });
 const sass = require('node-sass-middleware');
 const multer = require('multer');
 
@@ -34,6 +57,7 @@ const homeController = require('./controllers/home');
 const userController = require('./controllers/user');
 const apiController = require('./controllers/api');
 const contactController = require('./controllers/contact');
+const uiController = require('./controllers/ui');
 
 /**
  * API keys and Passport configuration.
@@ -41,17 +65,10 @@ const contactController = require('./controllers/contact');
 const passportConfig = require('./config/passport');
 
 /**
- * Create Express server.
- */
- const app = express();
- const server = require('http').Server(app);
- const io = require('socket.io')(server);
-
-/**
  * Connect to MongoDB.
  */
 mongoose.Promise = global.Promise;
-mongoose.connect(process.env.MONGODB_URI || process.env.MONGOLAB_URI);
+mongoose.connect(process.env.MONGODB_URI || process.env.MONGOLAB_URI, { useMongoClient: true });
 mongoose.connection.on('error', (err) => {
   console.error(err);
   console.log('%s MongoDB connection error. Please make sure MongoDB is running.', chalk.red('✗'));
@@ -65,7 +82,7 @@ app.set('host', process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0');
 app.set('port', process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
-app.use(expressStatusMonitor());
+app.use(statusMonitor.middleware);
 app.use(compression());
 app.use(sass({
   src: path.join(__dirname, 'public'),
@@ -121,15 +138,20 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }))
 /**
  * Primary app routes.
  */
-app.get('/', homeController.index);
-app.get('/login', userController.getLogin);
-app.post('/login', userController.postLogin);
+app.get('/home', homeController.index);
+app.get('/ui', uiController.index);
+
+app.get('/', userController.getLogin);
+app.post('/', userController.postLogin);
+
+// app.get('/login', userController.getLogin);
 app.get('/logout', userController.logout);
 app.get('/forgot', userController.getForgot);
 app.post('/forgot', userController.postForgot);
 app.get('/reset/:token', userController.getReset);
 app.post('/reset/:token', userController.postReset);
 app.get('/signup', userController.getSignup);
+
 app.post('/signup', userController.postSignup);
 app.get('/contact', contactController.getContact);
 app.post('/contact', contactController.postContact);
@@ -138,6 +160,9 @@ app.post('/account/profile', passportConfig.isAuthenticated, userController.post
 app.post('/account/password', passportConfig.isAuthenticated, userController.postUpdatePassword);
 app.post('/account/delete', passportConfig.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userController.getOauthUnlink);
+
+app.get('/status', passportConfig.isAuthenticated, statusMonitor.pageRoute);
+
 
 /**
  * API examples routes.
@@ -228,9 +253,22 @@ app.use(errorHandler());
 /**
  * Start Express server.
  */
-app.listen(app.get('port'), () => {
-  console.log('%s App is running at http://localhost:%d in %s mode', chalk.green('✓'), app.get('port'), app.get('env'));
+ app.listen(app.get('port'), () => {
+  console.log('%s App is running at https://localhost:%d in %s mode', chalk.green('✓'), app.get('port'), app.get('env'));
   console.log('  Press CTRL-C to stop\n');
 });
 
 module.exports = app;
+
+
+const fps_nsp = ioSocket.of('/fps-namespace');
+fps_nsp.on('connection', (socket) => {
+  // socket.emit('fps_com', { hello: 'Hey there browser!' });
+  socket.on('fps_com', (data) => {
+    console.log(data);
+    socket.emit('fps_com', {'xxx': 'yyy'});
+  });
+  socket.on('disconnect', () => {
+    console.log('Socket disconnected');
+  });
+});
