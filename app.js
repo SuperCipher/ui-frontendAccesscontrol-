@@ -36,15 +36,10 @@ const app = express();
 // const sslServer = https.createServer(options, app);
 // const io = require('socket.io')(sslServer);
 
-const server = require('http').Server(app);
-const io = require('socket.io')(server);
+const socketIoPort = 8082;
+const ioSocket = require('socket.io')(socketIoPort);
 
-
-
-const socketIoStatusPort = 8082;
-const ioStatus = require('socket.io')(socketIoStatusPort);
-
-const expressStatusMonitor = require('express-status-monitor')({ path: '',websocket: ioStatus, port: socketIoStatusPort });
+const statusMonitor = require('express-status-monitor')({ path: '' });
 const sass = require('node-sass-middleware');
 const multer = require('multer');
 
@@ -87,7 +82,7 @@ app.set('host', process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0');
 app.set('port', process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
-app.use(expressStatusMonitor.middleware);
+app.use(statusMonitor.middleware);
 app.use(compression());
 app.use(sass({
   src: path.join(__dirname, 'public'),
@@ -166,7 +161,7 @@ app.post('/account/password', passportConfig.isAuthenticated, userController.pos
 app.post('/account/delete', passportConfig.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userController.getOauthUnlink);
 
-app.get('/status', passportConfig.isAuthenticated, expressStatusMonitor);
+app.get('/status', passportConfig.isAuthenticated, statusMonitor.pageRoute);
 
 
 /**
@@ -258,7 +253,7 @@ app.use(errorHandler());
 /**
  * Start Express server.
  */
- server.listen(app.get('port'), () => {
+ app.listen(app.get('port'), () => {
   console.log('%s App is running at https://localhost:%d in %s mode', chalk.green('✓'), app.get('port'), app.get('env'));
   console.log('  Press CTRL-C to stop\n');
 });
@@ -266,7 +261,7 @@ app.use(errorHandler());
 module.exports = app;
 
 
-const fps_nsp = io.of('/fps-namespace');
+const fps_nsp = ioSocket.of('/fps-namespace');
 fps_nsp.on('connection', (socket) => {
   // socket.emit('fps_com', { hello: 'Hey there browser!' });
   socket.on('fps_com', (data) => {
