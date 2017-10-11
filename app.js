@@ -17,7 +17,14 @@ const path = require('path');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const expressValidator = require('express-validator');
-// const fs = require('fs');
+const fs = require('fs');
+const https = require('https');
+const options = {
+  key: fs.readFileSync('./key.pem'),
+  cert: fs.readFileSync('./cert.pem'),
+  requestCert: false,
+  rejectUnauthorized: false
+};
 
 /**
  * Create Express server.
@@ -25,8 +32,14 @@ const expressValidator = require('express-validator');
 
 const app = express();
 
+// HTTPS option
+// const sslServer = https.createServer(options, app);
+// const io = require('socket.io')(sslServer);
+
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
+
+
 
 const socketIoStatusPort = 8082;
 const ioStatus = require('socket.io')(socketIoStatusPort);
@@ -49,6 +62,7 @@ const homeController = require('./controllers/home');
 const userController = require('./controllers/user');
 const apiController = require('./controllers/api');
 const contactController = require('./controllers/contact');
+const uiController = require('./controllers/ui');
 
 /**
  * API keys and Passport configuration.
@@ -59,7 +73,7 @@ const passportConfig = require('./config/passport');
  * Connect to MongoDB.
  */
 mongoose.Promise = global.Promise;
-mongoose.connect(process.env.MONGODB_URI || process.env.MONGOLAB_URI);
+mongoose.connect(process.env.MONGODB_URI || process.env.MONGOLAB_URI, { useMongoClient: true });
 mongoose.connection.on('error', (err) => {
   console.error(err);
   console.log('%s MongoDB connection error. Please make sure MongoDB is running.', chalk.red('✗'));
@@ -130,7 +144,7 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }))
  * Primary app routes.
  */
 app.get('/home', homeController.index);
-app.get('/home', homeController.index);
+app.get('/ui', uiController.index);
 
 app.get('/', userController.getLogin);
 app.post('/', userController.postLogin);
@@ -245,18 +259,19 @@ app.use(errorHandler());
  * Start Express server.
  */
  server.listen(app.get('port'), () => {
-  console.log('%s App is running at http://localhost:%d in %s mode', chalk.green('✓'), app.get('port'), app.get('env'));
+  console.log('%s App is running at https://localhost:%d in %s mode', chalk.green('✓'), app.get('port'), app.get('env'));
   console.log('  Press CTRL-C to stop\n');
 });
 
 module.exports = app;
 
-var fps_nsp = io.of('/fps-namespace');
+
+const fps_nsp = io.of('/fps-namespace');
 fps_nsp.on('connection', (socket) => {
   // socket.emit('fps_com', { hello: 'Hey there browser!' });
   socket.on('fps_com', (data) => {
     console.log(data);
-    socket.emit('fps_com', "copy");
+    socket.emit('fps_com', {'xxx': 'yyy'});
   });
   socket.on('disconnect', () => {
     console.log('Socket disconnected');
