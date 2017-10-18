@@ -9,14 +9,22 @@ html
     link(rel='stylesheet', href='/css/ui.css')
 
   body
-    <h1>Material Design<br>Button in pure CSS<small>Click it!</small></h1>
-
-    <div class="button">
-      <input type="checkbox" id="your-id" class="button-checkbox">
-      <label class="button-trigger" for="your-id"><i class="material-icons">add</i></label>
-
-      <div class="button-option"><i class="material-icons">favorite</i></div>
-      <div class="button-option"><i class="material-icons">face</i></div>
-      <div class="button-option"><i class="material-icons">info</i></div>
-        <div class="button-option"><i class="material-icons">fingerprint</i></div>
-        </div>
+    h1
+      | Material Design
+      br
+      | Button in pure CSS
+      small Click it!
+    .button
+      input#expand.button-checkbox(type='checkbox')
+      label.button-trigger(for='expand')
+        i.material-icons add
+      .button-option
+        i.material-icons favorite
+      .button-option
+        i.material-icons face
+      #fingerprint.button-option(type='button')
+        i.material-icons fingerprint
+    
+    
+    
+    script(src='/js/ui.js')
