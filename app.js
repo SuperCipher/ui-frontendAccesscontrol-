@@ -86,7 +86,8 @@ app.use(statusMonitor.middleware);
 app.use(compression());
 app.use(sass({
   src: path.join(__dirname, 'public'),
-  dest: path.join(__dirname, 'public')
+  dest: path.join(__dirname, 'public'),
+  debug: true
 }));
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -254,7 +255,7 @@ app.use(errorHandler());
  * Start Express server.
  */
  app.listen(app.get('port'), () => {
-  console.log('%s App is running at https://localhost:%d in %s mode', chalk.green('✓'), app.get('port'), app.get('env'));
+  console.log('%s App is running at http://localhost:%d in %s mode ##open in incognito mode to make sure page work', chalk.green('✓'), app.get('port'), app.get('env'));
   console.log('  Press CTRL-C to stop\n');
 });
 
