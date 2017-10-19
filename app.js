@@ -36,10 +36,19 @@ const app = express();
 // const sslServer = https.createServer(options, app);
 // const io = require('socket.io')(sslServer);
 
-const socketIoPort = 8082;
-const ioSocket = require('socket.io')(socketIoPort);
+// const socketIoPort = 8082;
+// const ioSocket = require('socket.io')(socketIoPort);
 
-const statusMonitor = require('express-status-monitor')({ path: '' });
+// const socketIoPort = 8081;
+// const server = require('http').Server(app);
+// const io = require('socket.io')(socketIoPort);
+
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
+// var io  = require('socket.io')(http, { path: '/ui/socket.io'});
+
+// const statusMonitor = require('express-status-monitor')({ websocket: io, port: app.get('port'), path: '' });
+
 const sass = require('node-sass-middleware');
 const multer = require('multer');
 
@@ -82,7 +91,10 @@ app.set('host', process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0');
 app.set('port', process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
-app.use(statusMonitor.middleware);
+
+// const statusMonitor = require('express-status-monitor')({ websocket: io, port: app.get('port'), path: '' });
+
+// app.use(statusMonitor.middleware);
 app.use(compression());
 app.use(sass({
   src: path.join(__dirname, 'public'),
@@ -162,7 +174,7 @@ app.post('/account/password', passportConfig.isAuthenticated, userController.pos
 app.post('/account/delete', passportConfig.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userController.getOauthUnlink);
 
-app.get('/status', passportConfig.isAuthenticated, statusMonitor.pageRoute);
+// app.get('/status', passportConfig.isAuthenticated, statusMonitor.pageRoute);
 
 
 /**
@@ -254,20 +266,35 @@ app.use(errorHandler());
 /**
  * Start Express server.
  */
- app.listen(app.get('port'), () => {
+ server.listen(app.get('port'), () => {
   console.log('%s App is running at http://localhost:%d in %s mode ##open in incognito mode to make sure page work', chalk.green('✓'), app.get('port'), app.get('env'));
   console.log('  Press CTRL-C to stop\n');
 });
 
 module.exports = app;
 
+// const fps_nsp = io.of('/fps-namespace');
+// fps_nsp.on('connection', (socket) => {
+//   // socket.emit('fps_com', { hello: 'Hey there browser!' });
+//   socket.on('fps_com', (data) => {
+//     console.log(data);
+//     socket.emit('fps_com', {'fps': 'cmd'});
+//   });
+//
+//   fps_nsp.on('ui_com', (data) => {
+//     console.log(data);
+//     fps_nsp.emit('ui_com', {'uixxx': 'uiyyy'});
+//   });
+//
+//   fps_nsp.on('disconnect', () => {
+//     console.log('Socket disconnected');
+//   });
+// });
 
-const fps_nsp = ioSocket.of('/fps-namespace');
-fps_nsp.on('connection', (socket) => {
-  // socket.emit('fps_com', { hello: 'Hey there browser!' });
-  socket.on('fps_com', (data) => {
+io.on('connection', (socket) => {
+  socket.emit('ui_com', { hello: 'Hey there browser!' });
+  socket.on('ui_com', (data) => {
     console.log(data);
-    socket.emit('fps_com', {'xxx': 'yyy'});
   });
   socket.on('disconnect', () => {
     console.log('Socket disconnected');
