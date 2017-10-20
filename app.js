@@ -276,26 +276,34 @@ module.exports = app;
 // const fps_nsp = io.of('/fps-namespace');
 // fps_nsp.on('connection', (socket) => {
 //   // socket.emit('fps_com', { hello: 'Hey there browser!' });
+//   console.log("connection");
+//
 //   socket.on('fps_com', (data) => {
 //     console.log(data);
-//     socket.emit('fps_com', {'fps': 'cmd'});
+//     fps_nsp.emit('fps_com', {'fps': 'cmd'});
 //   });
 //
-//   fps_nsp.on('ui_com', (data) => {
+//   socket.on('ui_com', (data) => {
 //     console.log(data);
 //     fps_nsp.emit('ui_com', {'uixxx': 'uiyyy'});
 //   });
 //
-//   fps_nsp.on('disconnect', () => {
+//   socket.on('disconnect', () => {
 //     console.log('Socket disconnected');
 //   });
 // });
 
 io.on('connection', (socket) => {
+  console.log("incomming connection");
   socket.emit('ui_com', { hello: 'Hey there browser!' });
   socket.on('ui_com', (data) => {
     console.log(data);
   });
+  socket.emit('fps_com', { msg: 'server standby' });
+  socket.on('fps_com', (data) => {
+    console.log(data);
+  });
+
   socket.on('disconnect', () => {
     console.log('Socket disconnected');
   });
