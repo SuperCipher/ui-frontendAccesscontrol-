@@ -295,7 +295,7 @@ module.exports = app;
 
 io.on('connection', (socket) => {
   // console.log("incomming connection");
-  io.emit('ui_com', { msg: 'SERVER >>> standby for ui_com' });
+  io.emit('ui_com', 'SERVER >>> standby for ui_com');
   socket.on('ui_com', (data) => {
     console.log('ui_com ' + data);
   });
@@ -303,7 +303,8 @@ io.on('connection', (socket) => {
   socket.on('fps_com', (data) => {
     console.log('fps_com ' + data);
     io.emit('fps_com', { msg: 'SERVER >>> recieve' });
-    io.emit('ui_com', data);
+    var Sdata = data.toString();
+    io.emit('ui_com', Sdata);
   });
 
   socket.on('disconnect', () => {

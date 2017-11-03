@@ -6,11 +6,11 @@ html
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     meta(name='csrf-token', content=_csrf)
     title #{title} - Hackathon Starter
-    link(rel='stylesheet', href='/css/ui.css')
+    //- link(rel='stylesheet', href='/css/ui.css')
     //- include the style
-    link(rel='stylesheet', href='node_modules/alertifyjs/build/css/alertify.min.css')
+    //- link(rel='stylesheet', href='node_modules/alertifyjs/build/css/alertify.min.css')
     //- include a theme
-    link(rel='stylesheet', href='alertifyjs/build/css/themes/default.min.css')
+    //- link(rel='stylesheet', href='alertifyjs/build/css/themes/default.min.css')
 
   body
     h1
@@ -30,9 +30,10 @@ html
         i.material-icons fingerprint
     
 
-    script(src='/js/lib/jquery-3.1.1.min.js')
-    script(src='/socket.io/socket.io.js')
-    script(src='node_modules/alertifyjs/build/alertify.min.js')
-    
-    //- load ui.js later
-    script(src='/js/ui.js')
+    //- script(src='/js/lib/jquery-3.1.1.min.js')
+    //- script(src='/socket.io/socket.io.js')
+    //- script(src='node_modules/alertifyjs/build/alertify.min.js')
+    //- 
+    //- //- load ui.js later
+    //- script(src='/js/ui.js')
+    script(src='/js/bundle.js')
