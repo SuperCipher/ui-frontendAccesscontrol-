@@ -9,17 +9,28 @@ $(function () {
   socket.on('ui_com', function (data) {
 		// print what receive
     console.log(data);
-		if (Number.isInteger(data)) {
+		console.log(typeof data);
+		if (0 <= data && data <= 199 && typeof data !== 'string') {
 			alertify.success("welcome : "+data);
-		} else {
+		} else if (data == 200){
+			alertify.error("finger print is not in Database");
+		} else if (data.substring(0, 4)=='Fail'){
+			alertify.error(data);
+		}else {
 			alertify.message(data);
 		}
+
+		// if (0 <= data && data <= 199 && typeof data !== 'string') {
+		// 	alertify.success("welcome : "+data);
+		// } else {
+		// 	alertify.error("finger print is not in Database");
+		// }
   });
 	$( "#expand" ).on( "click", function() {
 
 	});
 	$( "#fingerprint" ).on( "click", function() {
 		console.log('check admin')
-		// socket.emit('ui_com', "check admin");
+		socket.emit('ui_com', "check admin");
 	});
 });

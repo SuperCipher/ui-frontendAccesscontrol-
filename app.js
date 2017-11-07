@@ -308,8 +308,8 @@ io.on('connection', (socket) => {
   socket.on('fps_com', (data) => {
     console.log('fps_com ' + data);
     io.emit('fps_com', { msg: 'SERVER >>> recieve' });
-    var Sdata = data.toString();
-    io.emit('ui_com', Sdata);
+    // var Sdata = data.toString();
+    io.emit('ui_com', data);
   });
 
   socket.on('disconnect', () => {
