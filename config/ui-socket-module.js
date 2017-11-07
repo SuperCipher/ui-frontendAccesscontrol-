@@ -9,6 +9,17 @@ $(function () {
   socket.on('ui_com', function (data) {
 		// print what receive
     console.log(data);
-      alertify.message("welcome : "+data);
+		if (Number.isInteger(data)) {
+			alertify.success("welcome : "+data);
+		} else {
+			alertify.message(data);
+		}
   });
+	$( "#expand" ).on( "click", function() {
+
+	});
+	$( "#fingerprint" ).on( "click", function() {
+		console.log('check admin')
+		// socket.emit('ui_com', "check admin");
+	});
 });

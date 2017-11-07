@@ -298,6 +298,11 @@ io.on('connection', (socket) => {
   io.emit('ui_com', 'SERVER >>> standby for ui_com');
   socket.on('ui_com', (data) => {
     console.log('ui_com ' + data);
+    if (data == 'check admin'){
+      console.log('check admin');
+      io.emit('fps_com', { msg: 'check admin' });
+    }
+
   });
   io.emit('fps_com', { msg: 'SERVER >>> standby for fps_com' });
   socket.on('fps_com', (data) => {
