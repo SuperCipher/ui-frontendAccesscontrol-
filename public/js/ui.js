@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(function () {
 
   // var socket = io();
   // var socket = io('/fps-namespace');
@@ -11,27 +11,26 @@ $(document).ready(function() {
     //   socket.emit('ui_com', { message: 'Hello to you too, Mr.Server!' });
     // });
 
-  // connect to server
-  	var socket = io.connect();
-  	// listening to server
-    socket.on('ui_com', function (data) {
-  		// print what receive
-      console.log(data);
-  		if (data == "IdentifySucess") {
-  			alert(data)
-  		}
+// connect to server
+	var socket = io.connect('http://localhost:8080', {'force new connection': true});
+	// listening to server
+  socket.emit('ui_com', "coppy");
+  socket.on('ui_com', function (data) {
+		// print what receive
+    console.log(data);
+      // alertify.message(data);
+  });
 
-      socket.emit('ui_com', "coppy");
-    });
 
   // Place JavaScript code here...
   $( "#expand" ).on( "click", function() {
-    alert( "expand" );
+
   });
   $( "#fingerprint" ).on( "click", function() {
     alert( "fingerprint" );
     socket.emit('ui_com', "fingerprint");
   });
+
 
   // socket.emit('ui_com', "fingerprint");
   //

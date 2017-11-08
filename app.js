@@ -294,17 +294,39 @@ module.exports = app;
 // });
 
 io.on('connection', (socket) => {
-  console.log("incomming connection");
-  socket.emit('ui_com', { hello: 'Hey there browser!' });
+  // console.log("incomming connection");
+  io.emit('ui_com', 'SERVER >>> standby for ui_com');
   socket.on('ui_com', (data) => {
-    console.log(data);
+    console.log('ui_com ' + data);
+    if (data == 'check admin'){
+      console.log('check admin');
+      io.emit('fps_com', { msg: 'check admin' });
+    }
+
   });
-  socket.emit('fps_com', { msg: 'server standby' });
+  io.emit('fps_com', { msg: 'SERVER >>> standby for fps_com' });
   socket.on('fps_com', (data) => {
-    console.log(data);
+    console.log('fps_com ' + data);
+    io.emit('fps_com', { msg: 'SERVER >>> recieve' });
+    io.emit('ui_com', data);
   });
 
   socket.on('disconnect', () => {
-    console.log('Socket disconnected');
+    console.log('<<< Socket disconnected');
   });
 });
+
+// io.on('connection', (socket) => {
+//   var data_ui
+//   // console.log("incomming connection");
+//   socket.emit('ui_com', { msg: 'SERVER >>> standby for ui_com' });
+//   socket.on('ui_com', (data) => {
+//     console.log('ui_com ' + data);
+//     socket.emit('ui_com', "data_ui");
+//   });
+//
+//
+//   socket.on('disconnect', () => {
+//     console.log('Socket disconnected');
+//   });
+// });
