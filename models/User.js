@@ -15,16 +15,20 @@ const userSchema = new mongoose.Schema({
   instagram: String,
   linkedin: String,
   steam: String,
-  tokens: Array,
 
+  tokens: Array,
+  fingerId: {type: String},
   profile: {
     name: String,
     gender: String,
     location: String,
     website: String,
     picture: String
-  }
-}, { timestamps: true });
+  },
+    isAdmin: {type: Boolean, default: false},
+  }, {
+  timestamps: true
+});
 
 /**
  * Password hash middleware.

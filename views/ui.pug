@@ -6,34 +6,23 @@ html
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     meta(name='csrf-token', content=_csrf)
     title #{title} - Hackathon Starter
-    //- link(rel='stylesheet', href='/css/ui.css')
-    //- include the style
-    //- link(rel='stylesheet', href='node_modules/alertifyjs/build/css/alertify.min.css')
-    //- include a theme
-    //- link(rel='stylesheet', href='alertifyjs/build/css/themes/default.min.css')
 
   body
     h1
-      | Material Design
+      | Welcome
       br
-      | Button in pure CSS
-      small Click it!
-    .button
-      input#expand.button-checkbox(type='checkbox')
-      label.button-trigger(for='expand')
-        i.material-icons add
-      .button-option
-        i.material-icons favorite
-      .button-option
-        i.material-icons face
-      #fingerprint.button-option(type='button')
+      | KMUTNB Access Control
+      small TRY IT OUT!
+    .button#expand
+      //- input#expand.button-checkbox(type='checkbox')
+      //- label.button-trigger(for='expand')
+      .button-adminMode(type='button')
         i.material-icons fingerprint
+      .button-option#close(type='button')
+        i.material-icons close
+      .button-option#delete(type='button')
+        i.material-icons delete
+      .button-option#fingerprint(type='button')
+        i.material-icons add
     
-
-    //- script(src='/js/lib/jquery-3.1.1.min.js')
-    //- script(src='/socket.io/socket.io.js')
-    //- script(src='node_modules/alertifyjs/build/alertify.min.js')
-    //- 
-    //- //- load ui.js later
-    //- script(src='/js/ui.js')
     script(src='/js/bundle.js')

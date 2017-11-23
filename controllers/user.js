@@ -141,6 +141,11 @@ exports.postUpdateProfile = (req, res, next) => {
     user.profile.gender = req.body.gender || '';
     user.profile.location = req.body.location || '';
     user.profile.website = req.body.website || '';
+    user.fingerId = req.body.fingerId || '';
+    user.isAdmin = req.body.isAdmin || '';
+
+
+
     user.save((err) => {
       if (err) {
         if (err.code === 11000) {
