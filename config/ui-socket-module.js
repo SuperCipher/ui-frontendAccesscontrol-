@@ -6,7 +6,7 @@ $(function () {
 // connect to server
 	var socket = io.connect('http://localhost:8080', {'force new connection': true});
 	// listening to server
-  socket.emit('ui_com', 'copy');
+  socket.emit('ui_com', 'CLIENT >>> recieve');
   socket.on('ui_com', function (data) {
 		// print what receive
     console.log(data);
@@ -43,21 +43,26 @@ $(function () {
 		}
   });
 
-	$( ".button-adminMode" ).on( "click", function() {
-		console.log('expand');
-		if(admin === "admin"){
-			$("#expand").toggleClass('clicked notClick');
-		}
-	});
-
 	$( "#close" ).on( "click", function() {
 		console.log('close');
     $("#expand").removeClass("clicked");
     $("#expand").addClass("notClick")
 	});
 
-	$( "#fingerprint" ).on( "click", function() {
-		console.log('check admin');
-		socket.emit('ui_com', "check admin");
+	$( "#delete" ).on( "click", function() {
+		console.log('delete');
+		socket.emit('ui_com', "delete");
+	});
+
+	$( "#add" ).on( "click", function() {
+		console.log('add');
+		socket.emit('ui_com', "add");
+	});
+
+	$( ".button-adminMode" ).on( "click", function() {
+		console.log('expand');
+		if(admin === "admin"){
+			$("#expand").toggleClass('clicked notClick');
+		}
 	});
 });
