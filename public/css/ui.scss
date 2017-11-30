@@ -250,12 +250,9 @@ h1 {
 
     &-option {
       &:nth-of-type(2) {
-        @include transform(translate(-50%, -440%));
-      }
-      &:nth-of-type(3) {
         @include transform(translate(-50%, -320%));
       }
-      &:nth-of-type(4) {
+      &:nth-of-type(3) {
         @include transform(translate(-50%, -200%));
       }
     }

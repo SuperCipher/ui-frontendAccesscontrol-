@@ -62,8 +62,32 @@ $(function () {
 
 	$( ".button-adminMode" ).on( "click", function() {
 		console.log('expand');
+		var classname=$('#expand').attr('class');
 		if(admin === "admin"){
-			$("#expand").toggleClass('clicked notClick');
+			$("#expand").addClass("clicked");
+			$("#expand").removeClass("notClick");
 		}
+		if(classname==='button clicked'){
+			$("#expand").addClass("notClick")
+			$("#expand").removeClass("clicked");
+		}
+
+		// var countDownDate = new Date().getTime();
+		// var x = setInterval(function() {
+		// 	// Get todays date and time
+		// 	var now = new Date().getTime();
+		// 	// Find the distance between now an the count down date
+		// 	var distance = now - countDownDate ;
+		// 	// Time calculations for days, hours, minutes and seconds
+		// 	var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+		// 	console.log(seconds);
+		// 	// If the count down is finished, write some text
+		// 	if (seconds > 4) {
+		// 		clearInterval(x);
+		// 	}
+		// }, 1000);
+
+
+
 	});
 });
