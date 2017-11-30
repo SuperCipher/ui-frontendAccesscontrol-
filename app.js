@@ -154,6 +154,8 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }))
  */
 app.get('/home', homeController.index);
 app.get('/ui', uiController.index);
+app.get('/uiedit', userController.getUiedit);
+
 
 app.get('/', userController.getLogin);
 app.post('/', userController.postLogin);
@@ -296,7 +298,7 @@ module.exports = app;
 
 io.on('connection', (socket) => {
   // console.log("incomming connection");
-  io.emit('ui_com', 'SERVER >>> standby for ui_com');
+  io.emit('ui_com', {msg:'SERVER >>> standby for ui_com'});
   socket.on('ui_com', (data) => {
     console.log('ui_com ' + data);
     if (data == 'add'){
@@ -309,12 +311,11 @@ io.on('connection', (socket) => {
   });
   io.emit('fps_com', { msg: 'SERVER >>> standby for fps_com' });
   socket.on('fps_com', (data) => {
-    console.log('fps_com ' + data);
+    console.log('fps_com ' + data.msg);
+    if (data.msg == 'Enrolled Successfull') {
+      console.log("new user added");
 
-    if (typeof data == 'string') {
-      if (data.substring(0, 5)=='Enroll') {
-        console.log("new user added");
-      }
+
     } else {
 
     }

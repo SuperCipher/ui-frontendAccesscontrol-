@@ -10,9 +10,9 @@ $(function () {
   socket.on('ui_com', function (data) {
 		// print what receive
     console.log(data);
-		console.log(typeof data);
-		if (0 <= data && data <= 199 && typeof data !== 'string') {
-			if (0 == data) {
+		console.log("this is type"+typeof data);
+		if (data.msg=='verified Successfull') {
+			if (0 == data.data) {
 				admin = "admin"
 				alertify.success("welcome Admin");
 				var countDownDate = new Date().getTime();
@@ -32,14 +32,14 @@ $(function () {
 				  }
 				}, 1000);
 			} else {
-				alertify.success("welcome user : "+data);
+				alertify.success("welcome user : "+data.data);
 			}
-		} else if (data == 200){
+		} else if (data.msg == 'verified Failed'){
 			alertify.error("finger print is not in Database");
-		} else if (data.substring(0, 4)=='Fail'){
+		} else if (data.msg.substring(0, 4)=='Fail'){
 			alertify.error(data);
 		}else {
-			alertify.message(data);
+			alertify.message(data.msg);
 		}
   });
 
@@ -51,6 +51,7 @@ $(function () {
 
 	$( "#delete" ).on( "click", function() {
 		console.log('delete');
+		document.location.href = '/uiedit';
 		socket.emit('ui_com', "delete");
 	});
 

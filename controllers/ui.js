@@ -1,6 +1,6 @@
 /**
  * GET /
- * Home page.
+ * UI page.
  */
 exports.index = (req, res) => {
   res.render('ui', {
