@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema({
   tokens: Array,
   fingerId: {type: String},
   profile: {
-    name: String,
+    name: {type: String, default: 'x'},
     gender: String,
     location: String,
     website: String,

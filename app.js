@@ -19,6 +19,7 @@ const passport = require('passport');
 const expressValidator = require('express-validator');
 const fs = require('fs');
 const https = require('https');
+const User = require('./models/User');
 const options = {
   key: fs.readFileSync('./key.pem'),
   cert: fs.readFileSync('./cert.pem'),
@@ -153,6 +154,8 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }))
  */
 app.get('/home', homeController.index);
 app.get('/ui', uiController.index);
+app.get('/uiedit', userController.getUiedit);
+
 
 app.get('/', userController.getLogin);
 app.post('/', userController.postLogin);
@@ -295,18 +298,27 @@ module.exports = app;
 
 io.on('connection', (socket) => {
   // console.log("incomming connection");
-  io.emit('ui_com', 'SERVER >>> standby for ui_com');
+  io.emit('ui_com', {msg:'SERVER >>> standby for ui_com'});
   socket.on('ui_com', (data) => {
     console.log('ui_com ' + data);
-    if (data == 'check admin'){
-      console.log('check admin');
-      io.emit('fps_com', { msg: 'check admin' });
+    if (data == 'add'){
+      console.log('add');
+      io.emit('fps_com', { msg: 'add' });
+    }else if (data == 'delete') {
+      console.log('delete');
     }
 
   });
   io.emit('fps_com', { msg: 'SERVER >>> standby for fps_com' });
   socket.on('fps_com', (data) => {
-    console.log('fps_com ' + data);
+    console.log('fps_com ' + data.msg);
+    if (data.msg == 'Enrolled Successfull') {
+      console.log("new user added");
+
+
+    } else {
+
+    }
     io.emit('fps_com', { msg: 'SERVER >>> recieve' });
     io.emit('ui_com', data);
   });

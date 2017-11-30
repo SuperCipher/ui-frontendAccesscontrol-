@@ -120,6 +120,27 @@ exports.getAccount = (req, res) => {
 };
 
 /**
+ * GET /account
+ * Profile page.
+ */
+exports.getUiedit = (req, res) =>{
+  User.find({}, function(err, users) {
+    res.render('uiedit', {
+      title: 'UI Edit Management',
+      accts : users
+    });
+  });
+};
+
+getAllRecords = (callback) => {
+	User.find().toArray(
+		function(e, res) {
+		if (e) callback(e)
+		else callback(null, res)
+	});
+}
+
+/**
  * POST /account/profile
  * Update profile information.
  */

@@ -1,0 +1,29 @@
+extends layout-ui
+
+block content
+  h1 List of user
+  p.lead List of all user and infomation.
+  hr
+  .row
+    .col-sm-12
+      table.table.table-bordered.table-striped
+        thead
+          tr
+            th(style='width:40px') Finger ID
+            th(style='width:180px') Email
+            th(style='width:200px') Name
+            th(style='width:180px') Gender
+            th(style='width:180px') Location
+            th(style='width:180px') Picture
+            th Account Created
+        tbody
+        - for (var i = 0; i < accts.length; i++)
+          tr
+            td= accts[i].fingerId
+            td= accts[i].email
+            td= accts[i].profile.name
+            td= accts[i].profile.gender
+            td= accts[i].profile.location
+            td= accts[i].profile.picture
+            td= accts[i].createdAt
+            
