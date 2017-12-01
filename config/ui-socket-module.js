@@ -49,18 +49,15 @@ $(function () {
     $("#expand").removeClass("clicked");
     $("#expand").addClass("notClick")
 	});
-
 	$( "#delete" ).on( "click", function() {
 		console.log('delete');
 		document.location.href = '/uiedit';
 		socket.emit('ui_com', "delete");
 	});
-
 	$( "#add" ).on( "click", function() {
 		console.log('add');
 		socket.emit('ui_com', "add");
 	});
-
 	$( ".button-adminMode" ).on( "click", function() {
 		console.log('expand');
 		var classname=$('#expand').attr('class');
