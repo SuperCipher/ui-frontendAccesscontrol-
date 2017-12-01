@@ -68,32 +68,34 @@ $(function () {
       // open menu
 			$("#expand").addClass("clicked");
 			$("#expand").removeClass("notClick");
+			if(ininterval == 'none'){
+				ininterval = 'inuse';
+				var countDownDate = new Date().getTime();
+				var x = setInterval(function() {
+					// Get todays date and time
+					var now = new Date().getTime();
+					// Find the distance between now an the count down date
+					var distance = now - countDownDate ;
+					// Time calculations for days, hours, minutes and seconds
+					var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+					console.log(seconds);
+					// If the count down is finished, write some text
+					if (seconds > 10) {
+						$("#expand").addClass("notClick")
+						$("#expand").removeClass("clicked");
+						ininterval = 'none'
+						clearInterval(x);
+					}
+				}, 1000);
+			}
 		}
 		if(classname==='button clicked'){
 			// close menu
 			$("#expand").addClass("notClick")
 			$("#expand").removeClass("clicked");
+			clearInterval(x);
 		}
 
-		if(classname==='button clicked'&& ininterval == 'none'){
-			ininterval = 'inuse';
-			var countDownDate = new Date().getTime();
-			var x = setInterval(function() {
-				// Get todays date and time
-				var now = new Date().getTime();
-				// Find the distance between now an the count down date
-				var distance = now - countDownDate ;
-				// Time calculations for days, hours, minutes and seconds
-				var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-				console.log(seconds);
-				// If the count down is finished, write some text
-				if (seconds > 10) {
-					$("#expand").addClass("notClick")
-					$("#expand").removeClass("clicked");
-					clearInterval(x);
-					ininterval = 'none'
-				}
-			}, 1000);
-		}
+
 	});
 });
