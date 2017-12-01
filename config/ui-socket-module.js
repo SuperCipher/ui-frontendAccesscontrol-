@@ -95,7 +95,5 @@ $(function () {
 			$("#expand").removeClass("clicked");
 			clearInterval(x);
 		}
-
-
 	});
 });
