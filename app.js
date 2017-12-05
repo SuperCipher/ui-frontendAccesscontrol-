@@ -312,9 +312,22 @@ io.on('connection', (socket) => {
   io.emit('fps_com', { msg: 'SERVER >>> standby for fps_com' });
   socket.on('fps_com', (data) => {
     console.log('fps_com ' + data.msg);
+
     if (data.msg == 'Enrolled Successfull') {
       console.log("new user added");
-
+      console.log(data.data);
+      const user = new User({
+        fingerId: data.data
+      });
+      User.findOne({fingerId: data.data}, (err, existingUser) => {
+        if (err) { console.log(err); }
+        if (existingUser) {
+          console.log('fingerId already exists.');
+        }
+        user.save((err) => {
+          if (err) { console.log(err); }
+        });
+      });
 
     } else {
 

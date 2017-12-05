@@ -110,7 +110,7 @@ exports.postSignup = (req, res, next) => {
 };
 
 /**
- * GET /account
+ * GET /account/profile
  * Profile page.
  */
 exports.getAccount = (req, res) => {
