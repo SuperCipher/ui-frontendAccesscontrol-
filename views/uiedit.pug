@@ -5,6 +5,14 @@ block content
   p.lead List of all user and infomation.
   hr
   .row
+    .col-sm-10
+      button.btn.btnBack(type='button') Back
+    .col-sm-2
+      button.btn.btnRe(type='button') Refresh
+  .row
+    .col-sm-6
+      h1 
+  .row
     .col-sm-12
       table.table.table-bordered.table-striped
         thead
@@ -26,6 +34,12 @@ block content
             td= accts[i].email
             td
               button.btn.btn-danger.btnDel(type='button') Delete
-    .col-sm-12
+  .row
+    .col-sm-6
+      h1 
+  .row
+    .col-sm-10
       button.btn.btnBack(type='button') Back
+    .col-sm-2
+      button.btn.btnRe(type='button') Refresh
             

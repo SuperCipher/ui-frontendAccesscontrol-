@@ -16,4 +16,7 @@ $(document).ready(function() {
   $(".btnBack").click(function(){
     document.location.href = '/ui';
   });
+  $(".btnRe").click(function(){
+    document.location.href = '/uiedit';
+  });
 });
