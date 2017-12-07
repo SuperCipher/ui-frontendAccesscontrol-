@@ -1,6 +1,6 @@
-const $ = require('jquery');
-const alertify = require('alertifyjs');
-alertify.set('notifier','position', 'top-right');
+// const $ = require('jquery');
+// const alertify = require('alertifyjs');
+// alertify.set('notifier','position', 'top-right');
 // const io = require('socket.io-client');
 //
 // // const io = require('socket.io');
@@ -9,7 +9,7 @@ alertify.set('notifier','position', 'top-right');
 //   var socket = io.connect('http://localhost:8080', {'force new connection': true});
 //   console.log('hi')
 //   // $( "#expand" ).on( "click", function() {
-//   // 
+//   //
 //   // });
 //   // $( "#fingerprint" ).on( "click", function() {
 //   //   alertify.message('fingerprint');

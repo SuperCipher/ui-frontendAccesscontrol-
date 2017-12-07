@@ -12,30 +12,31 @@ module.exports = {
   },
   plugins: debug ? [] : [
     new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.optimize.UglifyJsPlugin({ mangle: false, sourcemap: false }),
+    new webpack.optimize.UglifyJsPlugin({ mangle: false, sourcemap: false })
+
   ],
   module: {
-        rules: [
-          {
-            test: /\.scss$/,
-            use: [{
-                loader: "style-loader" // creates style nodes from JS strings
-            }, {
-                loader: "css-loader", // translates CSS into CommonJS
-                options: {
-                  includePaths: [path.resolve(__dirname, 'node_modules')],
-                },
-            }, {
-                loader: "sass-loader" // compiles Sass to CSS
-            }]
+    rules: [
+      {
+        test: /\.scss$/,
+        use: [{
+          loader: "style-loader" // creates style nodes from JS strings
+        }, {
+          loader: "css-loader", // translates CSS into CommonJS
+          options: {
+            includePaths: [path.resolve(__dirname, 'node_modules')],
+          },
+        }, {
+          loader: "sass-loader" // compiles Sass to CSS
+        }]
 
-        },
-        {
-          test: /\.css$/,
+      },
+      {
+        test: /\.css$/,
         use: [ 'style-loader', 'css-loader' ]
-        }
+      }
 
-      ]
+    ]
 
-    }
+  }
 };
