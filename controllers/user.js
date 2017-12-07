@@ -162,6 +162,7 @@ exports.postUpdateProfile = (req, res, next) => {
     user.profile.gender = req.body.gender || '';
     user.profile.location = req.body.location || '';
     user.profile.website = req.body.website || '';
+    user.profile.picture = req.body.PictureUrl || '';
     user.fingerId = req.body.fingerId || '';
     user.isAdmin = req.body.isAdmin || '';
 

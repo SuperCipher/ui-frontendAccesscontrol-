@@ -329,7 +329,7 @@ io.on('connection', (socket) => {
         });
       });
 
-    } else {
+    } else if (data.msg == 'Delete Successfull') {
 
     }
     io.emit('fps_com', { msg: 'SERVER >>> recieve' });

@@ -10,20 +10,21 @@ block content
         thead
           tr
             th(style='width:40px') Finger ID
-            th(style='width:180px') Email
+            th(style='width:180px') Picture
             th(style='width:200px') Name
             th(style='width:180px') Gender
-            th(style='width:180px') Location
-            th(style='width:180px') Picture
-            th Account Created
+            th(style='width:180px') Email
+
         tbody
         - for (var i = 0; i < accts.length; i++)
           tr
             td= accts[i].fingerId
-            td= accts[i].email
+            td
+              img(src=accts[i].profile.picture, width='100', height='100')
             td= accts[i].profile.name
             td= accts[i].profile.gender
-            td= accts[i].profile.location
-            td= accts[i].profile.picture
-            td= accts[i].createdAt
+            td= accts[i].email
+            td
+              button.btn.btn-danger(type='button') Delete
+
             
