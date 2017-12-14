@@ -1,14 +1,17 @@
 const $ = require('jquery');
 const alertify = require('alertifyjs');
+require('alertifyjs/build/css/alertify.css');
+require('alertifyjs/build/css/themes/bootstrap.css');
 alertify.set('notifier','position', 'top-right');
 const io = require('socket.io-client');
+
 var admin = "none"
 var ininterval = 'none'
 $(function () {
 // connect to server
 	var socket = io.connect('http://localhost:8080', {'force new connection': true});
 	// listening to server
-  socket.emit('ui_com', 'CLIENT >>> standby');
+  socket.emit('ui_com', {msg:'CLIENT >>> standby'});
   socket.on('ui_com', function (data) {
 		// print what receive
     console.log(data);
@@ -39,7 +42,7 @@ $(function () {
 		} else if (data.msg == 'verified Failed'){
 			alertify.error("finger print is not in Database");
 		} else if (data.msg.substring(0, 4)=='Fail'){
-			alertify.error(data);
+			alertify.error(data.msg);
 		}else {
 			alertify.message(data.msg);
 		}
@@ -53,11 +56,11 @@ $(function () {
 	$( "#delete" ).on( "click", function() {
 		console.log('delete');
 		document.location.href = '/uiedit';
-		socket.emit('ui_com', "delete");
+		socket.emit('ui_com', {msg:"delete"});
 	});
 	$( "#add" ).on( "click", function() {
 		console.log('add');
-		socket.emit('ui_com', "add");
+		socket.emit('ui_com', {msg:"add"});
 	});
 	$( ".button-adminMode" ).on( "click", function() {
 		console.log('expand');

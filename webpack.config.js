@@ -5,15 +5,22 @@ const path = require('path');
 module.exports = {
   context: __dirname,
   devtool: debug ? "inline-sourcemap" : false,
-  entry: "./config/webpack-scripts.js",
+  entry: {
+    ui: "./config/ui-entry.js",
+    uiedit: "./config/uiedit-entry.js",
+    vendors: ["jquery","alertifyjs","socket.io-client"],
+  },
   output: {
     path: path.resolve(__dirname, './public/js'),
-    filename: "bundle.js"
+    filename: "[name].bundle.js"
   },
   plugins: debug ? [] : [
     new webpack.optimize.OccurrenceOrderPlugin(),
+    new CommonsChunkPlugin({
+      name: 'vendors',
+      minChunks: Infinity,
+    }),
     new webpack.optimize.UglifyJsPlugin({ mangle: false, sourcemap: false })
-
   ],
   module: {
     rules: [

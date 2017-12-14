@@ -300,12 +300,13 @@ io.on('connection', (socket) => {
   // console.log("incomming connection");
   io.emit('ui_com', {msg:'SERVER >>> standby for ui_com'});
   socket.on('ui_com', (data) => {
-    console.log('ui_com ' + data);
-    if (data == 'add'){
-      console.log('add');
+    console.log('ui_com ' + data.msg);
+    if (data.msg == 'add'){
+      console.log(data.msg);
       io.emit('fps_com', { msg: 'add' });
-    }else if (data == 'delete') {
-      console.log('delete');
+    }else if (data.msg == 'delete') {
+      console.log(data.msg);
+      console.log(data.data);
     }
 
   });
@@ -330,7 +331,10 @@ io.on('connection', (socket) => {
       });
 
     } else if (data.msg == 'Delete Successfull') {
-
+      User.findOne({ fingerId: data.data}, function (err, doc){
+        // doc is a Document
+        console.log(doc);
+      });
     }
     io.emit('fps_com', { msg: 'SERVER >>> recieve' });
     io.emit('ui_com', data);
