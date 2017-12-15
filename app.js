@@ -316,8 +316,8 @@ io.on('connection', (socket) => {
   io.emit('fps_com', { msg: 'SERVER >>> standby for fps_com' });
   socket.on('fps_com', (data) => {
     if (data.msg == 'Enrolled Successfull') {
-      console.log("new user added");
-      console.log(data.data);
+      // console.log("new user added");
+      // console.log(data.data);
       const user = new User({
         fingerId: data.data
       });
@@ -335,6 +335,7 @@ io.on('connection', (socket) => {
         User.remove({ _id: obj._id }, function(err) {
           if (!err) {
             console.log("Delete Successfull confirm : "+obj._id);
+            io.emit('ui_com', { msg: 'Delete Successfull confirm', data:obj.name});
           }
           else {
             console.log(err);
@@ -344,16 +345,23 @@ io.on('connection', (socket) => {
     }else if (data.msg == 'verified Successfull') {
       User.findOne({ fingerId: data.data}, function (err, obj){
         console.log(obj.isAdmin);
-        // if(){
-        //
-        // }
+        if(obj.isAdmin){
+          io.emit('ui_com', { msg: 'verified admin', data:obj.profile.name});
+          // console.log(typeof obj.profile.name);
+          // console.log(obj.profile.name);
+        }else {
+          io.emit('ui_com', { msg: 'verified user', data:obj.profile.name});
+        }
 
       });
-      io.emit('ui_com', { msg: 'verified Successfull' });
+    }else if (data.msg == 'verified Failed') {
+      io.emit('ui_com', { msg: 'verified Failed'});
+    }else if(data.msg.substring(0, 4)=='Fail'){
+      io.emit('ui_com', { msg: data.msg});
+    }else{
+      console.log("uncaught fps socket msg : "+data.msg);
     }
 
-    // io.emit('fps_com', { msg: 'SERVER >>> recieve' });
-    // io.emit('ui_com', data);
   });
 
   socket.on('disconnect', () => {

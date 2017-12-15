@@ -13,6 +13,9 @@ $(function() {
     // print what receive
     console.log(data.msg);
     console.log("this is type"+typeof data);
+    if (data.msg=='Delete Successfull confirm') {
+      alertify.success("Delete Successfull : "+data.data)
+    }
   });
 
   $(".btnDel").click(function(){
