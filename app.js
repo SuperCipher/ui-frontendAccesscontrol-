@@ -298,24 +298,26 @@ module.exports = app;
 
 io.on('connection', (socket) => {
   // console.log("incomming connection");
-  io.emit('ui_com', {msg:'SERVER >>> standby for ui_com'});
+  io.emit('ui_com', {msg: 'SERVER >>> standby for ui_com'});
+  // recieve command from client then pass to fps_com
   socket.on('ui_com', (data) => {
-    console.log('ui_com ' + data);
-    if (data == 'add'){
-      console.log('add');
+    if (data.msg == 'add'){
+      console.log("recieve add msg from ui "+data.msg);
       io.emit('fps_com', { msg: 'add' });
-    }else if (data == 'delete') {
-      console.log('delete');
+    }else if (data.msg == 'delete') {
+      console.log("recieve delete msg from ui : " + data.msg);
+      console.log("recieve delete data from ui : " + data.data);
+      io.emit('fps_com', { msg: 'delete', data: data.data });
+    }else {
+      console.log("recieve some msg from ui : " + data.msg);
+      console.log("recieve some data from ui : " + data.data);
     }
-
   });
   io.emit('fps_com', { msg: 'SERVER >>> standby for fps_com' });
   socket.on('fps_com', (data) => {
-    console.log('fps_com ' + data.msg);
-
     if (data.msg == 'Enrolled Successfull') {
-      console.log("new user added");
-      console.log(data.data);
+      // console.log("new user added");
+      // console.log(data.data);
       const user = new User({
         fingerId: data.data
       });
@@ -325,15 +327,46 @@ io.on('connection', (socket) => {
           console.log('fingerId already exists.');
         }
         user.save((err) => {
-          if (err) { console.log(err); }
+          if (err) {
+            console.log('on save database error : ' + err);
+          }else {
+            User.findOne({ fingerId: data.data}, function (err, obj){
+              io.emit('ui_com', { msg: 'Enrolled confirm', data:obj.profile.name});
+            });
+          }
         });
       });
-
     } else if (data.msg == 'Delete Successfull') {
-
+      User.findOne({ fingerId: data.data}, function (err, obj){
+        User.remove({ _id: obj._id }, function(err) {
+          if (!err) {
+            console.log("Delete Successfull confirm : "+obj._id);
+            io.emit('ui_com', { msg: 'Delete confirm', data:obj.profile.name});
+          }
+          else {
+            console.log(err);
+          }
+        });
+      });
+    }else if (data.msg == 'verified Successfull') {
+      User.findOne({ fingerId: data.data}, function (err, obj){
+        console.log(obj.isAdmin);
+        if(obj.isAdmin){
+          io.emit('ui_com', { msg: 'verified admin', data:obj.profile.name});
+          // console.log(typeof obj.profile.name);
+          // console.log(obj.profile.name);
+        }else {
+          io.emit('ui_com', { msg: 'verified user', data:obj.profile.name});
+        }
+      });
+    }else if (data.msg == 'verified Failed') {
+      io.emit('ui_com', { msg: 'verified Failed'});
+    }else if(data.msg.substring(0, 4)=='Fail'){
+      io.emit('ui_com', { msg: data.msg});
+    }else{
+      console.log("uncaught fps socket msg : "+data.msg);
     }
-    io.emit('fps_com', { msg: 'SERVER >>> recieve' });
-    io.emit('ui_com', data);
+
   });
 
   socket.on('disconnect', () => {
