@@ -41,6 +41,8 @@ $(function () {
 			alertify.error("finger print is not in Database");
 		} else if (data.msg.substring(0, 4)=='Fail'){
 			alertify.error(data.msg);
+		}else if (data.msg=='Enrolled confirm') {
+			alertify.success(data.msg);
 		}else {
 			alertify.message(data.msg);
 		}

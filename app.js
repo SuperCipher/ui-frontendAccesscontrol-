@@ -327,7 +327,13 @@ io.on('connection', (socket) => {
           console.log('fingerId already exists.');
         }
         user.save((err) => {
-          if (err) { console.log('on save database error : ' + err); }
+          if (err) {
+            console.log('on save database error : ' + err);
+          }else {
+            User.findOne({ fingerId: data.data}, function (err, obj){
+              io.emit('ui_com', { msg: 'Enrolled confirm', data:obj.profile.name});
+            });
+          }
         });
       });
     } else if (data.msg == 'Delete Successfull') {
@@ -335,7 +341,7 @@ io.on('connection', (socket) => {
         User.remove({ _id: obj._id }, function(err) {
           if (!err) {
             console.log("Delete Successfull confirm : "+obj._id);
-            io.emit('ui_com', { msg: 'Delete Successfull confirm', data:obj.name});
+            io.emit('ui_com', { msg: 'Delete confirm', data:obj.profile.name});
           }
           else {
             console.log(err);
@@ -352,7 +358,6 @@ io.on('connection', (socket) => {
         }else {
           io.emit('ui_com', { msg: 'verified user', data:obj.profile.name});
         }
-
       });
     }else if (data.msg == 'verified Failed') {
       io.emit('ui_com', { msg: 'verified Failed'});

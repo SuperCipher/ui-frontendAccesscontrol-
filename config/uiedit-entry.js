@@ -13,8 +13,9 @@ $(function() {
     // print what receive
     console.log(data.msg);
     console.log("this is type"+typeof data);
-    if (data.msg=='Delete Successfull confirm') {
-      alertify.success("Delete Successfull : "+data.data)
+    if (data.msg=='Delete confirm') {
+      alertify.success("Delete confirm : "+data.data)
+      document.location.href = '/uiedit';
     }
   });
 
@@ -22,7 +23,6 @@ $(function() {
     var id = $(this).closest("tr").find('td.fingerId').text();
     if (confirm('Do you want to delete user: '+id)) {
       socket.emit('ui_com', {msg:'delete',data:id});
-
     }else {
 
     }
