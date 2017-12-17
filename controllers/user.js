@@ -120,7 +120,7 @@ exports.getAccount = (req, res) => {
 };
 
 /**
- * GET /account
+ * GET /uiedit
  * Profile page.
  */
 exports.getUiedit = (req, res) =>{
@@ -131,14 +131,6 @@ exports.getUiedit = (req, res) =>{
     });
   });
 };
-
-getAllRecords = (callback) => {
-	User.find().toArray(
-		function(e, res) {
-		if (e) callback(e)
-		else callback(null, res)
-	});
-}
 
 /**
  * POST /account/profile
@@ -166,7 +158,82 @@ exports.postUpdateProfile = (req, res, next) => {
     user.fingerId = req.body.fingerId || '';
     user.isAdmin = req.body.isAdmin || '';
 
+    user.save((err) => {
+      if (err) {
+        if (err.code === 11000) {
+          req.flash('errors', { msg: 'The email address you have entered is already associated with an account.' });
+          return res.redirect('/account');
+        }
+        return next(err);
+      }
+      req.flash('success', { msg: 'Profile information has been updated.' });
+      res.redirect('/account');
+    });
+  });
+};
 
+/**
+ * GET /ListEdit
+ * Profile page.
+ */
+exports.getListEdit = (req, res) =>{
+  User.find({}, function(err, users) {
+    res.render('Listedit', {
+      title: 'Profile list Edit Management',
+      accts : users
+    });
+  });
+};
+
+/**
+ * POST /ListEdit
+ * Profile page.
+ */
+exports.postListEdit = (req, res) =>{
+  User.findOne({fingerId:req.user.fingerId}, function(err, users) {
+    console.log(user);
+    res.render('Listedit', {
+      title: 'Profile list Edit Management',
+      accts : users
+    });
+  });
+};
+
+/**
+ * GET /account/profile-edit
+ * Profile page.
+ */
+exports.getAccount = (req, res) => {
+  res.render('account/profile-edit', {
+    title: 'Multi Account Management'
+  });
+};
+
+/**
+ * POST /account/profile-edit
+ * Update profile information.
+ */
+exports.postProfileEdit = (req, res, next) => {
+  req.assert('email', 'Please enter a valid email address.').isEmail();
+  req.sanitize('email').normalizeEmail({ gmail_remove_dots: false });
+
+  const errors = req.validationErrors();
+
+  if (errors) {
+    req.flash('errors', errors);
+    return res.redirect('/account');
+  }
+
+  User.findById(req.user.id, (err, user) => {
+    if (err) { return next(err); }
+    user.email = req.body.email || '';
+    user.profile.name = req.body.name || '';
+    user.profile.gender = req.body.gender || '';
+    user.profile.location = req.body.location || '';
+    user.profile.website = req.body.website || '';
+    user.profile.picture = req.body.PictureUrl || '';
+    user.fingerId = req.body.fingerId || '';
+    user.isAdmin = req.body.isAdmin || '';
 
     user.save((err) => {
       if (err) {
