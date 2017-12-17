@@ -8,6 +8,7 @@ module.exports = {
   entry: {
     ui: "./config/ui-entry.js",
     uiedit: "./config/uiedit-entry.js",
+    listedit:"./config/listedit.js",
     vendors: ["jquery","alertifyjs","socket.io-client"],
   },
   output: {

@@ -1,0 +1,43 @@
+extends layout-Listedit
+
+block content
+  h1 Edit User
+  p.lead List of all user and infomation.
+  hr
+  .row
+    .col-sm-10
+      button.btn.btnBack(type='button') Back
+    .col-sm-2
+      button.btn.btnRe(type='button') Refresh
+  .row
+    .col-sm-6
+      h1 
+  .row
+    .col-sm-12
+      table.table.table-bordered.table-striped
+        thead
+          tr
+            th(style='width:80px') Finger ID
+            th(style='width:160px') Picture
+            th(style='width:200px') Name
+            th(style='width:100px') Gender
+            th(style='width:240px') Email
+
+        tbody
+        - for (var i = 0; i < accts.length; i++)
+          tr#listTable
+            td.fingerId= accts[i].fingerId
+            td
+              img(src=accts[i].profile.picture, width='100', height='100')
+            td= accts[i].profile.name
+            td= accts[i].profile.gender
+            td= accts[i].email
+            td
+              button.btn.btn-danger.btnDel(type='button') Edit
+  .row
+    .col-sm-6
+      h1 
+  .row
+    .col-sm-2
+      button.btn.btnRe(type='button') Refresh
+            
