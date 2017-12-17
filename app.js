@@ -157,6 +157,7 @@ app.get('/ui', uiController.index);
 app.get('/uiedit', userController.getUiedit);
 
 
+
 app.get('/', userController.getLogin);
 app.post('/', userController.postLogin);
 
@@ -173,6 +174,10 @@ app.get('/contact', contactController.getContact);
 app.post('/contact', contactController.postContact);
 app.get('/account', passportConfig.isAuthenticated, userController.getAccount);
 app.post('/account/profile', passportConfig.isAuthenticated, userController.postUpdateProfile);
+
+app.get('/account/list-edit', passportConfig.isAuthenticated, userController.getListEdit);
+app.post('/account/profile-edit', passportConfig.isAuthenticated, userController.postProfileEdit);
+
 app.post('/account/password', passportConfig.isAuthenticated, userController.postUpdatePassword);
 app.post('/account/delete', passportConfig.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userController.getOauthUnlink);
@@ -313,7 +318,7 @@ io.on('connection', (socket) => {
       console.log("recieve some data from ui : " + data.data);
     }
   });
-  io.emit('fps_com', { msg: 'SERVER >>> standby for fps_com' });
+  io.emit('fps_com', { msg: 'SERVER >>> standby for fps_com' ,data:1});
   socket.on('fps_com', (data) => {
     if (data.msg == 'Enrolled Successfull') {
       // console.log("new user added");
