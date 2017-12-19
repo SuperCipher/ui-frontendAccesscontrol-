@@ -55,7 +55,7 @@ $(function () {
 	});
 	$( "#delete" ).on( "click", function() {
 		console.log('delete');
-		document.location.href = '/uiedit';
+		document.location.href = '/uidelete';
 		// socket.emit('ui_com', {msg:"delete"});
 	});
 	$( "#add" ).on( "click", function() {

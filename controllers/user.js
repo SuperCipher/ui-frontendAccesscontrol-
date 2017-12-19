@@ -120,12 +120,12 @@ exports.getAccount = (req, res) => {
 };
 
 /**
- * GET /uiedit
+ * GET /uidelete
  * Profile page.
  */
-exports.getUiedit = (req, res) =>{
+exports.getUidelete = (req, res) =>{
   User.find({}, function(err, users) {
-    res.render('uiedit', {
+    res.render('uidelete', {
       title: 'UI Edit Management',
       accts : users
     });

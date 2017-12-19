@@ -15,7 +15,7 @@ $(function() {
     console.log("this is type"+typeof data);
     if (data.msg=='Delete confirm') {
       alertify.success("Delete confirm : "+data.data)
-      document.location.href = '/uiedit';
+      document.location.href = '/uidelete';
     }
   });
 
@@ -31,6 +31,6 @@ $(function() {
     document.location.href = '/ui';
   });
   $(".btnRe").click(function(){
-    document.location.href = '/uiedit';
+    document.location.href = '/uidelete';
   });
 });

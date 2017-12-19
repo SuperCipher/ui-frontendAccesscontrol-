@@ -154,7 +154,7 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }))
  */
 app.get('/home', homeController.index);
 app.get('/ui', uiController.index);
-app.get('/uiedit', userController.getUiedit);
+app.get('/uidelete', userController.getUidelete);
 
 
 
