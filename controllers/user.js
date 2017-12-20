@@ -3,7 +3,7 @@ const crypto = bluebird.promisifyAll(require('crypto'));
 const nodemailer = require('nodemailer');
 const passport = require('passport');
 const User = require('../models/User');
-
+var globaluser
 /**
  * GET /login
  * Login page.
@@ -125,6 +125,7 @@ exports.getAccount = (req, res) => {
  */
 exports.getUidelete = (req, res) =>{
   User.find({}, function(err, users) {
+    console.log(users);
     res.render('uidelete', {
       title: 'UI Edit Management',
       accts : users
@@ -190,22 +191,30 @@ exports.getListEdit = (req, res) =>{
  * Profile page.
  */
 exports.postListEdit = (req, res) =>{
-  User.findOne({fingerId:req.user.fingerId}, function(err, users) {
-    console.log(user);
-    res.render('Listedit', {
-      title: 'Profile list Edit Management',
-      accts : users
-    });
+  User.findOne({fingerId:req.body.fingerId}, function(err, users) {
+    globaluser = users;
+
   });
+  // return res.redirect('/account/profile-edit')
 };
 
 /**
  * GET /account/profile-edit
  * Profile page.
  */
-exports.getAccount = (req, res) => {
+exports.getProfileEdit = (req, res) => {
+// console.log(globaluser);
   res.render('account/profile-edit', {
-    title: 'Multi Account Management'
+    title: 'profile Edit Management',
+    isAdmin : globaluser.isAdmin ,
+    email : globaluser.email ,
+    fingerId : globaluser.fingerId ,
+    name : globaluser.profile.name ,
+    gender : globaluser.profile.gender ,
+    location : globaluser.profile.location ,
+    website : globaluser.profile.website ,
+    picture : globaluser.profile.picture
+
   });
 };
 
@@ -221,30 +230,31 @@ exports.postProfileEdit = (req, res, next) => {
 
   if (errors) {
     req.flash('errors', errors);
-    return res.redirect('/account');
+    return res.redirect('/account/profile-edit');
   }
 
-  User.findById(req.user.id, (err, user) => {
+  User.findOne({fingerId:req.body.fingerId}, (err, user) => {
+    // console.log(user);
     if (err) { return next(err); }
     user.email = req.body.email || '';
     user.profile.name = req.body.name || '';
     user.profile.gender = req.body.gender || '';
     user.profile.location = req.body.location || '';
     user.profile.website = req.body.website || '';
-    user.profile.picture = req.body.PictureUrl || '';
+    user.profile.picture = req.body.picture || '';
     user.fingerId = req.body.fingerId || '';
     user.isAdmin = req.body.isAdmin || '';
 
     user.save((err) => {
       if (err) {
         if (err.code === 11000) {
-          req.flash('errors', { msg: 'The email address you have entered is already associated with an account.' });
-          return res.redirect('/account');
+          req.flash('errors', { msg: 'The email address you have entered is already associated with an account. : '+ req.body.email });
+          return res.redirect('/account/profile-edit');
         }
         return next(err);
       }
       req.flash('success', { msg: 'Profile information has been updated.' });
-      res.redirect('/account');
+      res.redirect('/account/profile-edit');
     });
   });
 };

@@ -15,14 +15,30 @@ $(function() {
   //   console.log("this is type"+typeof data);
   //   if (data.msg=='Delete confirm') {
   //     alertify.success("Delete confirm : "+data.data)
-  //     document.location.href = '/uidelete';
+  //     document.location.href = '/uiedit';
   //   }
   // });
 
   $(".btnDel").click(function(){
     var id = $(this).closest("tr").find('td.fingerId').text();
-    alert("dd");
+    var csrf1 = $('#csrf').val();
+    alert(id + " , " + csrf1)
+    $.post("list-edit",
+    {
+        fingerId: id,
+        _csrf:csrf1
+    });
+    // $.get("profile-edit",
+    // {
+    //     // fingerId: id,
+    //     _csrf:csrf1
+    // });
+    setTimeout(
+  function()
+  {
+    document.location.href = '/account/profile-edit';
 
+  }, 1000);
   });
   $(".btnRe").click(function(){
     document.location.href = '/list-edit';

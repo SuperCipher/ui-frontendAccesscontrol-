@@ -11,7 +11,8 @@ block content
       button.btn.btnRe(type='button') Refresh
   .row
     .col-sm-6
-      h1 
+      h1
+      input(type='hidden', name='_csrf', value=_csrf, id="csrf")
   .row
     .col-sm-12
       table.table.table-bordered.table-striped
@@ -32,6 +33,7 @@ block content
             td= accts[i].profile.name
             td= accts[i].profile.gender
             td= accts[i].email
+            td= accts[i].isAdmin
             td
               button.btn.btn-danger.btnDel(type='button') Edit
   .row
