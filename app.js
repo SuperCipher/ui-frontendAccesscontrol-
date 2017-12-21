@@ -377,6 +377,7 @@ io.on('connection', (socket) => {
       io.emit('ui_com', { msg: data.msg});
     }else{
       console.log("uncaught fps socket msg : "+data.msg);
+      io.emit('ui_com', { msg: data.msg});
     }
 
   });
