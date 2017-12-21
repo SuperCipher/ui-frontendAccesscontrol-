@@ -154,7 +154,7 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }))
  */
 app.get('/home', homeController.index);
 app.get('/ui', uiController.index);
-app.get('/uiedit', userController.getUiedit);
+app.get('/uidelete', userController.getUidelete);
 
 
 
@@ -176,9 +176,13 @@ app.get('/account', passportConfig.isAuthenticated, userController.getAccount);
 app.post('/account/profile', passportConfig.isAuthenticated, userController.postUpdateProfile);
 
 app.get('/account/list-edit', passportConfig.isAuthenticated, userController.getListEdit);
+app.post('/account/list-edit', passportConfig.isAuthenticated, userController.postListEdit);
+app.get('/account/profile-edit', passportConfig.isAuthenticated, userController.getProfileEdit);
 app.post('/account/profile-edit', passportConfig.isAuthenticated, userController.postProfileEdit);
 
 app.post('/account/password', passportConfig.isAuthenticated, userController.postUpdatePassword);
+app.post('/account/user-password', passportConfig.isAuthenticated, userController.postUpdateUserPassword);
+
 app.post('/account/delete', passportConfig.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userController.getOauthUnlink);
 
@@ -313,6 +317,9 @@ io.on('connection', (socket) => {
       console.log("recieve delete msg from ui : " + data.msg);
       console.log("recieve delete data from ui : " + data.data);
       io.emit('fps_com', { msg: 'delete', data: data.data });
+    }else if (data.msg == 'edit') {
+      console.log("recieve delete msg from ui : " + data.msg);
+      console.log("recieve delete data from ui : " + data.data);
     }else {
       console.log("recieve some msg from ui : " + data.msg);
       console.log("recieve some data from ui : " + data.data);

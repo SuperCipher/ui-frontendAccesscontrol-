@@ -3,7 +3,7 @@ const crypto = bluebird.promisifyAll(require('crypto'));
 const nodemailer = require('nodemailer');
 const passport = require('passport');
 const User = require('../models/User');
-
+var globaluser
 /**
  * GET /login
  * Login page.
@@ -111,7 +111,7 @@ exports.postSignup = (req, res, next) => {
 
 /**
  * GET /account/profile
- * Profile page.
+ * Admin Profile page.
  */
 exports.getAccount = (req, res) => {
   res.render('account/profile', {
@@ -120,12 +120,13 @@ exports.getAccount = (req, res) => {
 };
 
 /**
- * GET /uiedit
- * Profile page.
+ * GET /uidelete
+ * List of user page.
  */
-exports.getUiedit = (req, res) =>{
+exports.getUidelete = (req, res) =>{
   User.find({}, function(err, users) {
-    res.render('uiedit', {
+    console.log(users);
+    res.render('uidelete', {
       title: 'UI Edit Management',
       accts : users
     });
@@ -174,7 +175,7 @@ exports.postUpdateProfile = (req, res, next) => {
 
 /**
  * GET /ListEdit
- * Profile page.
+ * List of user to edit page.
  */
 exports.getListEdit = (req, res) =>{
   User.find({}, function(err, users) {
@@ -187,31 +188,38 @@ exports.getListEdit = (req, res) =>{
 
 /**
  * POST /ListEdit
- * Profile page.
+ * Find user Profile page.
  */
 exports.postListEdit = (req, res) =>{
-  User.findOne({fingerId:req.user.fingerId}, function(err, users) {
-    console.log(user);
-    res.render('Listedit', {
-      title: 'Profile list Edit Management',
-      accts : users
-    });
+  User.findOne({fingerId:req.body.fingerId}, function(err, users) {
+    globaluser = users;
   });
+  return res.redirect('/account/profile-edit');
 };
 
 /**
  * GET /account/profile-edit
- * Profile page.
+ * Edit user profile page.
  */
-exports.getAccount = (req, res) => {
+exports.getProfileEdit = (req, res) => {
+// console.log(globaluser);
   res.render('account/profile-edit', {
-    title: 'Multi Account Management'
+    title: 'profile Edit Management',
+    isAdmin : globaluser.isAdmin ,
+    email : globaluser.email ,
+    fingerId : globaluser.fingerId ,
+    name : globaluser.profile.name ,
+    gender : globaluser.profile.gender ,
+    location : globaluser.profile.location ,
+    website : globaluser.profile.website ,
+    picture : globaluser.profile.picture
+
   });
 };
 
 /**
  * POST /account/profile-edit
- * Update profile information.
+ * Update User profile information.
  */
 exports.postProfileEdit = (req, res, next) => {
   req.assert('email', 'Please enter a valid email address.').isEmail();
@@ -221,30 +229,32 @@ exports.postProfileEdit = (req, res, next) => {
 
   if (errors) {
     req.flash('errors', errors);
-    return res.redirect('/account');
+    return res.redirect('/account/profile-edit');
   }
 
-  User.findById(req.user.id, (err, user) => {
+  User.findOne({fingerId:req.body.fingerId}, (err, user) => {
+    // console.log(user);
     if (err) { return next(err); }
     user.email = req.body.email || '';
     user.profile.name = req.body.name || '';
     user.profile.gender = req.body.gender || '';
     user.profile.location = req.body.location || '';
     user.profile.website = req.body.website || '';
-    user.profile.picture = req.body.PictureUrl || '';
+    user.profile.picture = req.body.picture || '';
     user.fingerId = req.body.fingerId || '';
     user.isAdmin = req.body.isAdmin || '';
 
     user.save((err) => {
       if (err) {
         if (err.code === 11000) {
-          req.flash('errors', { msg: 'The email address you have entered is already associated with an account.' });
-          return res.redirect('/account');
+          req.flash('errors', { msg: 'The email address you have entered is already associated with an account. : '+ req.body.email });
+          return res.redirect('/account/profile-edit');
         }
         return next(err);
       }
       req.flash('success', { msg: 'Profile information has been updated.' });
-      res.redirect('/account');
+      globaluser = user;
+      res.redirect('/account/profile-edit');
     });
   });
 };
@@ -271,6 +281,33 @@ exports.postUpdatePassword = (req, res, next) => {
       if (err) { return next(err); }
       req.flash('success', { msg: 'Password has been changed.' });
       res.redirect('/account');
+    });
+  });
+};
+
+/**
+ * POST /account/user-password
+ * Update User password.
+ */
+exports.postUpdateUserPassword = (req, res, next) => {
+  req.assert('password', 'Password must be at least 4 characters long').len(4);
+  req.assert('confirmPassword', 'Passwords do not match').equals(req.body.password);
+
+  const errors = req.validationErrors();
+
+  if (errors) {
+    req.flash('errors', errors);
+    return res.redirect('/account/profile-edit');
+  }
+  // console.log(" globaluser fid "+globaluser.fingerId);
+  User.findOne({fingerId:globaluser.fingerId}, (err, user) => {
+    console.log(user);
+    if (err) { return next(err); }
+    user.password = req.body.password;
+    user.save((err) => {
+      if (err) { return next(err); }
+      req.flash('success', { msg: 'Password has been changed.' });
+      res.redirect('/account/profile-edit');
     });
   });
 };
@@ -328,6 +365,7 @@ exports.getReset = (req, res, next) => {
       });
     });
 };
+
 
 /**
  * POST /reset/:token
@@ -390,6 +428,7 @@ exports.postReset = (req, res, next) => {
     .then(() => { if (!res.finished) res.redirect('/'); })
     .catch(err => next(err));
 };
+
 
 /**
  * GET /forgot

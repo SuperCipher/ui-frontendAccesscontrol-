@@ -2,60 +2,59 @@ extends ../layout
 
 block content
   .page-header
-    h3 Profile Information
-
-  form.form-horizontal(action='/account/profile', method='POST')
+    h3 User Profile Information
+  form.form-horizontal(action='/account/profile-edit', method='POST')
     input(type='hidden', name='_csrf', value=_csrf)
       
     .form-group
       label.col-sm-3.control-label isAdmin
       .col-sm-6
         label.radio.col-sm-3
-          input(type='radio', checked=user.isAdmin==true, name='isAdmin', value='true', data-toggle='radio')
+          input(type='radio', checked=isAdmin==true, name='isAdmin', value='true', data-toggle='radio')
           span Admin
         label.radio.col-sm-3
-          input(type='radio', checked=user.isAdmin==false, name='isAdmin', value='false', data-toggle='radio')
+          input(type='radio', checked=isAdmin==false, name='isAdmin', value='false', data-toggle='radio')
           span User
     .form-group
       label.col-sm-3.control-label(for='fingerId') fingerId
       .col-sm-7
-        input.form-control(type='fingerId', name='fingerId', id='fingerId', value=user.fingerId)
+        input.form-control(type='fingerId', name='fingerId', id='fingerId', value=fingerId)
     .form-group
       label.col-sm-3.control-label(for='email') Email
       .col-sm-7
-        input.form-control(type='email', name='email', id='email', value=user.email)
+        input.form-control(type='email', name='email', id='email', value=email)
     .form-group
       label.col-sm-3.control-label(for='name') Name
       .col-sm-7
-        input.form-control(type='text', name='name', id='name', value=user.profile.name)
+        input.form-control(type='text', name='name', id='name', value=name)
     .form-group
       label.col-sm-3.control-label Gender
       .col-sm-6
         label.radio.col-sm-3
-          input(type='radio', checked=user.profile.gender=='male', name='gender', value='male', data-toggle='radio')
+          input(type='radio', checked=gender=='male', name='gender', value='male', data-toggle='radio')
           span Male
         label.radio.col-sm-3
-          input(type='radio', checked=user.profile.gender=='female', name='gender', value='female', data-toggle='radio')
+          input(type='radio', checked=gender=='female', name='gender', value='female', data-toggle='radio')
           span Female
         label.radio.col-sm-3
-          input(type='radio', checked=user.profile.gender=='other', name='gender', value='other', data-toggle='radio')
+          input(type='radio', checked=gender=='other', name='gender', value='other', data-toggle='radio')
           span Other
     .form-group
       label.col-sm-3.control-label(for='location') Location
       .col-sm-7
-        input.form-control(type='text', name='location', id='location', value=user.profile.location)
+        input.form-control(type='text', name='location', id='location', value=location)
     .form-group
       label.col-sm-3.control-label(for='website') Website
       .col-sm-7
-        input.form-control(type='text', name='website', id='website', value=user.profile.website)
+        input.form-control(type='text', name='website', id='website', value=website)
     .form-group
-      label.col-sm-3.control-label(for='PictureUrl') Picture Url
+      label.col-sm-3.control-label(for='picture') Picture Url
       .col-sm-7
-        input.form-control(type='text', name='PictureUrl', id='PictureUrl', value=user.profile.picture)
+        input.form-control(type='text', name='picture', id='picture', value=picture)
     .form-group
       label.col-sm-3.control-label Picture
       .col-sm-4
-        img(src=user.profile.picture, class='profile', width='100', height='100')
+        img(src=picture, class='profile', width='100', height='100')
     .form-group
       .col-sm-offset-3.col-sm-4
         button.btn.btn.btn-primary(type='submit')
@@ -65,7 +64,7 @@ block content
   .page-header
     h3 Change Password
 
-  form.form-horizontal(action='/account/password', method='POST')
+  form.form-horizontal(action='/account/user-password', method='POST')
     input(type='hidden', name='_csrf', value=_csrf)
     .form-group
       label.col-sm-3.control-label(for='password') New Password
