@@ -2,7 +2,7 @@ extends ../layout
 
 block content
   .page-header
-    h3 Profile Information
+    h3 User Profile Information
   form.form-horizontal(action='/account/profile-edit', method='POST')
     input(type='hidden', name='_csrf', value=_csrf)
       
@@ -50,7 +50,7 @@ block content
     .form-group
       label.col-sm-3.control-label(for='picture') Picture Url
       .col-sm-7
-        input.form-control(type='text', name='picture', id='PictureUrl', value=picture)
+        input.form-control(type='text', name='picture', id='picture', value=picture)
     .form-group
       label.col-sm-3.control-label Picture
       .col-sm-4
@@ -64,7 +64,7 @@ block content
   .page-header
     h3 Change Password
 
-  form.form-horizontal(action='/account/password', method='POST')
+  form.form-horizontal(action='/account/user-password', method='POST')
     input(type='hidden', name='_csrf', value=_csrf)
     .form-group
       label.col-sm-3.control-label(for='password') New Password

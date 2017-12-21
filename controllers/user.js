@@ -111,7 +111,7 @@ exports.postSignup = (req, res, next) => {
 
 /**
  * GET /account/profile
- * Profile page.
+ * Admin Profile page.
  */
 exports.getAccount = (req, res) => {
   res.render('account/profile', {
@@ -121,7 +121,7 @@ exports.getAccount = (req, res) => {
 
 /**
  * GET /uidelete
- * Profile page.
+ * List of user page.
  */
 exports.getUidelete = (req, res) =>{
   User.find({}, function(err, users) {
@@ -175,7 +175,7 @@ exports.postUpdateProfile = (req, res, next) => {
 
 /**
  * GET /ListEdit
- * Profile page.
+ * List of user to edit page.
  */
 exports.getListEdit = (req, res) =>{
   User.find({}, function(err, users) {
@@ -188,19 +188,17 @@ exports.getListEdit = (req, res) =>{
 
 /**
  * POST /ListEdit
- * Profile page.
+ * Find user Profile page.
  */
 exports.postListEdit = (req, res) =>{
   User.findOne({fingerId:req.body.fingerId}, function(err, users) {
     globaluser = users;
-
   });
-  // return res.redirect('/account/profile-edit')
 };
 
 /**
  * GET /account/profile-edit
- * Profile page.
+ * Edit user profile page.
  */
 exports.getProfileEdit = (req, res) => {
 // console.log(globaluser);
@@ -220,7 +218,7 @@ exports.getProfileEdit = (req, res) => {
 
 /**
  * POST /account/profile-edit
- * Update profile information.
+ * Update User profile information.
  */
 exports.postProfileEdit = (req, res, next) => {
   req.assert('email', 'Please enter a valid email address.').isEmail();
@@ -254,6 +252,7 @@ exports.postProfileEdit = (req, res, next) => {
         return next(err);
       }
       req.flash('success', { msg: 'Profile information has been updated.' });
+      globaluser = user;
       res.redirect('/account/profile-edit');
     });
   });
@@ -281,6 +280,33 @@ exports.postUpdatePassword = (req, res, next) => {
       if (err) { return next(err); }
       req.flash('success', { msg: 'Password has been changed.' });
       res.redirect('/account');
+    });
+  });
+};
+
+/**
+ * POST /account/user-password
+ * Update User password.
+ */
+exports.postUpdateUserPassword = (req, res, next) => {
+  req.assert('password', 'Password must be at least 4 characters long').len(4);
+  req.assert('confirmPassword', 'Passwords do not match').equals(req.body.password);
+
+  const errors = req.validationErrors();
+
+  if (errors) {
+    req.flash('errors', errors);
+    return res.redirect('/account/profile-edit');
+  }
+  console.log(" globaluser fid "+globaluser.fingerId);
+  User.findOne({fingerId:globaluser.fingerId}, (err, user) => {
+    console.log(user);
+    if (err) { return next(err); }
+    user.password = req.body.password;
+    user.save((err) => {
+      if (err) { return next(err); }
+      req.flash('success', { msg: 'Password has been changed.' });
+      res.redirect('/account/profile-edit');
     });
   });
 };
@@ -338,6 +364,7 @@ exports.getReset = (req, res, next) => {
       });
     });
 };
+
 
 /**
  * POST /reset/:token
@@ -400,6 +427,7 @@ exports.postReset = (req, res, next) => {
     .then(() => { if (!res.finished) res.redirect('/'); })
     .catch(err => next(err));
 };
+
 
 /**
  * GET /forgot

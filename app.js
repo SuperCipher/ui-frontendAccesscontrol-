@@ -181,6 +181,8 @@ app.get('/account/profile-edit', passportConfig.isAuthenticated, userController.
 app.post('/account/profile-edit', passportConfig.isAuthenticated, userController.postProfileEdit);
 
 app.post('/account/password', passportConfig.isAuthenticated, userController.postUpdatePassword);
+app.post('/account/user-password', passportConfig.isAuthenticated, userController.postUpdateUserPassword);
+
 app.post('/account/delete', passportConfig.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userController.getOauthUnlink);
 

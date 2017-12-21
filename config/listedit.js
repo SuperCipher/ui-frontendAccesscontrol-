@@ -22,23 +22,21 @@ $(function() {
   $(".btnDel").click(function(){
     var id = $(this).closest("tr").find('td.fingerId').text();
     var csrf1 = $('#csrf').val();
-    alert(id + " , " + csrf1)
+    // alert(id + " , " + csrf1)
     $.post("list-edit",
     {
         fingerId: id,
         _csrf:csrf1
     });
-    // $.get("profile-edit",
-    // {
-    //     // fingerId: id,
-    //     _csrf:csrf1
-    // });
     setTimeout(
-  function()
-  {
-    document.location.href = '/account/profile-edit';
+      function()
+      {
+        document.location.href = '/account/profile-edit';
 
-  }, 1000);
+      }, 1000);
+  });
+  $(".btnBack").click(function(){
+    document.location.href = '/account';
   });
   $(".btnRe").click(function(){
     document.location.href = '/list-edit';
