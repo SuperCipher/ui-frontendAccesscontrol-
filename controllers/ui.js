@@ -15,12 +15,12 @@ Object.keys(ifaces).forEach(function (ifname) {
 
     if (alias >= 1) {
       // this single interface has multiple ipv4 addresses
-      console.log(ifname + ':' + alias, iface.address);
+      // console.log(ifname + ':' + alias, iface.address);
       // ipStream=
     } else {
       // this interface has only one ipv4 adress
-      console.log(ifname, iface.address);
-      if(ifname=="en0"){
+      // console.log(ifname, iface.address);
+      if(ifname=="eth0"){
         ipStream = iface.address;
         ipStream = "http://"+ipStream+ ":8091"
         // console.log(ipStream);
