@@ -194,7 +194,7 @@ exports.postListEdit = (req, res) =>{
   User.findOne({fingerId:req.body.fingerId}, function(err, users) {
     globaluser = users;
   });
-  // return res.redirect('/account/profile-edit');
+  return res.redirect('/account/profile-edit');
 };
 
 /**
