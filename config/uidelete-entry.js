@@ -7,8 +7,8 @@ const io = require('socket.io-client');
 
 $(function() {
 
-  var socket = io.connect('http://localhost:8080', {'force new connection': true});
-  socket.emit('ui_com', {msg:'CLIENT >>> standby'});
+  var socket = io.connect();
+  // socket.emit('ui_com', {msg:'CLIENT >>> standby'});
   socket.on('ui_com', function (data) {
     // print what receive
     console.log(data.msg);
@@ -23,8 +23,6 @@ $(function() {
     var id = $(this).closest("tr").find('td.fingerId').text();
     if (confirm('Do you want to delete user: '+id)) {
       socket.emit('ui_com', {msg:'delete',data:id});
-    }else {
-
     }
   });
   $(".btnBack").click(function(){

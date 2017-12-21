@@ -9,7 +9,7 @@ var admin = "none"
 var ininterval = 'none'
 $(function () {
 // connect to server
-	var socket = io.connect('http://localhost:8080', {'force new connection': true});
+	var socket = io.connect();
 	// listening to server
   socket.emit('ui_com', {msg:'CLIENT >>> standby'});
   socket.on('ui_com', function (data) {
@@ -56,8 +56,6 @@ $(function () {
 	$( "#delete" ).on( "click", function() {
 		console.log('delete');
 		document.location.href = '/uidelete';
-		// socket.emit('ui_com', {msg:"delete"});
-		
 	});
 	$( "#add" ).on( "click", function() {
 		console.log('add');

@@ -125,7 +125,7 @@ exports.getAccount = (req, res) => {
  */
 exports.getUidelete = (req, res) =>{
   User.find({}, function(err, users) {
-    console.log(users);
+    // console.log(users);
     res.render('uidelete', {
       title: 'UI Edit Management',
       accts : users
