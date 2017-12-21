@@ -194,6 +194,7 @@ exports.postListEdit = (req, res) =>{
   User.findOne({fingerId:req.body.fingerId}, function(err, users) {
     globaluser = users;
   });
+  return res.redirect('/account/profile-edit');
 };
 
 /**
@@ -298,7 +299,7 @@ exports.postUpdateUserPassword = (req, res, next) => {
     req.flash('errors', errors);
     return res.redirect('/account/profile-edit');
   }
-  console.log(" globaluser fid "+globaluser.fingerId);
+  // console.log(" globaluser fid "+globaluser.fingerId);
   User.findOne({fingerId:globaluser.fingerId}, (err, user) => {
     console.log(user);
     if (err) { return next(err); }

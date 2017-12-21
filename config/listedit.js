@@ -23,17 +23,14 @@ $(function() {
     var id = $(this).closest("tr").find('td.fingerId').text();
     var csrf1 = $('#csrf').val();
     // alert(id + " , " + csrf1)
-    $.post("list-edit",
+    var jqxhr = $.post("list-edit",
     {
-        fingerId: id,
-        _csrf:csrf1
+      fingerId: id,
+      _csrf:csrf1
+    }, function(data) {
+      // console.log(data);
+      document.location.href = '/account/profile-edit';
     });
-    setTimeout(
-      function()
-      {
-        document.location.href = '/account/profile-edit';
-
-      }, 1000);
   });
   $(".btnBack").click(function(){
     document.location.href = '/account';
