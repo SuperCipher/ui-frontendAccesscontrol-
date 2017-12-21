@@ -57,6 +57,7 @@ $(function () {
 		console.log('delete');
 		document.location.href = '/uidelete';
 		// socket.emit('ui_com', {msg:"delete"});
+		
 	});
 	$( "#add" ).on( "click", function() {
 		console.log('add');
