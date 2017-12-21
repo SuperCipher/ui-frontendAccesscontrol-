@@ -15,13 +15,10 @@ $(function() {
     {
       fingerId: id,
       _csrf:csrf1
-    }, function(data) {
-      // console.log(data);
-      setTimeout(function() {
-document.location.href = '/account/profile-edit';}, 1000);
-
     });
-  });
+    setTimeout(function() {
+      document.location.href = '/account/profile-edit';}, 2000);
+    });
   $(".btnBack").click(function(){
     document.location.href = '/account';
   });
