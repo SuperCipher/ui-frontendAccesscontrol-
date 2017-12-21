@@ -307,7 +307,7 @@ module.exports = app;
 
 io.on('connection', (socket) => {
   // console.log("incomming connection");
-  io.emit('ui_com', {msg: 'SERVER >>> standby for ui_com'});
+  io.emit('ui_com', {msg: 'SERVER >>> standby for ui_com',data: 222});
   // recieve command from client then pass to fps_com
   socket.on('ui_com', (data) => {
     if (data.msg == 'add'){
