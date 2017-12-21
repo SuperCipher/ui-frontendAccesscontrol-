@@ -194,7 +194,7 @@ exports.postListEdit = (req, res) =>{
   User.findOne({fingerId:req.body.fingerId}, function(err, users) {
     globaluser = users;
   });
-  return res.redirect('/account/profile-edit');
+  // return res.redirect('/account/profile-edit');
 };
 
 /**
@@ -202,7 +202,7 @@ exports.postListEdit = (req, res) =>{
  * Edit user profile page.
  */
 exports.getProfileEdit = (req, res) => {
-// console.log(globaluser);
+console.log(globaluser);
   res.render('account/profile-edit', {
     title: 'profile Edit Management',
     isAdmin : globaluser.isAdmin ,
