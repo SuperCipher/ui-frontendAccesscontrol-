@@ -312,7 +312,7 @@ io.on('connection', (socket) => {
   socket.on('ui_com', (data) => {
     if (data.msg == 'add'){
       console.log("recieve add msg from ui "+data.msg);
-      io.emit('fps_com', { msg: 'add' , data: data.data});
+      io.emit('fps_com', { msg: 'add' , data: 222});
     }else if (data.msg == 'delete') {
       console.log("recieve delete msg from ui : " + data.msg);
       console.log("recieve delete data from ui : " + data.data);
