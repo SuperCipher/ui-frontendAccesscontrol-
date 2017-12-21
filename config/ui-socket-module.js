@@ -11,7 +11,7 @@ $(function () {
 // connect to server
 	var socket = io.connect();
 	// listening to server
-  socket.emit('ui_com', {msg:'CLIENT >>> standby'});
+  socket.emit('ui_com', {msg:'CLIENT >>> standby', data:222});
   socket.on('ui_com', function (data) {
 		// print what receive
     // console.log(data);
@@ -59,7 +59,7 @@ $(function () {
 	});
 	$( "#add" ).on( "click", function() {
 		console.log('add');
-		socket.emit('ui_com', {msg:"add"});
+		socket.emit('ui_com', {msg:"add",data:222});
 	});
 	$( ".button-adminMode" ).on( "click", function() {
 		console.log('expand');
