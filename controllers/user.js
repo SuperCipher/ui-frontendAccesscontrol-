@@ -205,7 +205,7 @@ exports.getProfileEdit = (req, res) => {
 console.log(globaluser);
   res.render('account/profile-edit', {
     title: 'profile Edit Management',
-    isAdmin : globaluser.isAdmin ,
+    isadmin : globaluser.isAdmin ,
     email : globaluser.email ,
     fingerId : globaluser.fingerId ,
     name : globaluser.profile.name ,
@@ -242,7 +242,7 @@ exports.postProfileEdit = (req, res, next) => {
     user.profile.website = req.body.website || '';
     user.profile.picture = req.body.picture || '';
     user.fingerId = req.body.fingerId || '';
-    user.isAdmin = req.body.isAdmin || '';
+    user.isAdmin = req.body.isadmin || '';
 
     user.save((err) => {
       if (err) {

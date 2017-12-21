@@ -6,15 +6,15 @@ block content
   form.form-horizontal(action='/account/profile-edit', method='POST')
     input(type='hidden', name='_csrf', value=_csrf)
       
-    //- .form-group
-    //-   label.col-sm-3.control-label isAdmin
-    //-   .col-sm-6
-    //-     label.radio.col-sm-3
-    //-       input(type='radio', checked=isAdmin==true, name='isAdmin', value='true', data-toggle='radio')
-    //-       span Admin
-    //-     label.radio.col-sm-3
-    //-       input(type='radio', checked=isAdmin==false, name='isAdmin', value='false', data-toggle='radio')
-    //-       span User
+    .form-group
+      label.col-sm-3.control-label Is admin
+      .col-sm-6
+        label.radio.col-sm-3
+          input(type='radio', checked=isadmin==true, name='isadmin', value='true', data-toggle='radio')
+          span Admin
+        label.radio.col-sm-3
+          input(type='radio', checked=isadmin==false, name='isadmin', value='false', data-toggle='radio')
+          span User
     .form-group
       label.col-sm-3.control-label(for='fingerId') fingerId
       .col-sm-7
