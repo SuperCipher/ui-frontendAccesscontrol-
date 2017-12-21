@@ -17,7 +17,9 @@ $(function() {
       _csrf:csrf1
     }, function(data) {
       // console.log(data);
-      document.location.href = '/account/profile-edit';
+      setTimeout(function() {
+document.location.href = '/account/profile-edit';}, 1000);
+
     });
   });
   $(".btnBack").click(function(){
