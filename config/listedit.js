@@ -3,7 +3,6 @@ const alertify = require('alertifyjs');
 require('alertifyjs/build/css/alertify.css');
 require('alertifyjs/build/css/themes/bootstrap.css');
 alertify.set('notifier','position', 'top-right');
-// const io = require('socket.io-client');
 
 $(function() {
 

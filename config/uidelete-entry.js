@@ -26,7 +26,7 @@ $(function() {
     }
   });
   $(".btnBack").click(function(){
-    document.location.href = '/ui';
+    document.location.href = document.referrer;
   });
   $(".btnRe").click(function(){
     document.location.href = '/uidelete';

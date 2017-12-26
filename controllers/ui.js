@@ -31,7 +31,6 @@ Object.keys(ifaces).forEach(function (ifname) {
 });
 
 
-// ipStream = "http://"+ipStream+ ":8091"
 /**
  * GET /
  * UI page.
@@ -39,8 +38,19 @@ Object.keys(ifaces).forEach(function (ifname) {
 exports.index = (req, res) => {
   res.render('ui', {
     title: 'ui',
-    streamip : ipStream
+  });
+};
 
+
+// ipStream = "http://"+ipStream+ ":8091"
+/**
+ * GET /
+ * UI remote page.
+ */
+exports.getUiRemote = (req, res) => {
+  res.render('uiremote', {
+    title: 'ui remote',
+    streamip : ipStream
   });
   console.log(ipStream);
 //   console.log(ifname + ':' + alias, iface.address);
