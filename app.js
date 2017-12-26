@@ -154,7 +154,7 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }))
  */
 app.get('/home', homeController.index);
 app.get('/ui', uiController.index);
-app.get('/uiremote', uiController.getUiRemote);
+app.get('/uiremote', passportConfig.isAuthenticated, uiController.getUiRemote);
 app.get('/uidelete', userController.getUidelete);
 
 
@@ -164,13 +164,13 @@ app.post('/', userController.postLogin);
 
 // app.get('/login', userController.getLogin);
 app.get('/logout', userController.logout);
-app.get('/forgot', userController.getForgot);
-app.post('/forgot', userController.postForgot);
+app.get('/forgot', passportConfig.isAuthenticated, userController.getForgot);
+app.post('/forgot', passportConfig.isAuthenticated, userController.postForgot);
 app.get('/reset/:token', userController.getReset);
 app.post('/reset/:token', userController.postReset);
-app.get('/signup', userController.getSignup);
+app.get('/signup', passportConfig.isAuthenticated, userController.getSignup);
 
-app.post('/signup', userController.postSignup);
+app.post('/signup', passportConfig.isAuthenticated, userController.postSignup);
 app.get('/contact', contactController.getContact);
 app.post('/contact', contactController.postContact);
 app.get('/account', passportConfig.isAuthenticated, userController.getAccount);
